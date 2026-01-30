@@ -1,3 +1,4 @@
+import HubLink from "../components/Hublink";
 import LinkCard from "../components/LinkCard";
 
 function Home() {
@@ -5,11 +6,13 @@ function Home() {
     <>
       <div>
         <h1>Jennifer Louise</h1>
-        <p>
+        <h3>
           <i>Chasing daydreams, catching sunbeams</i>
-        </p>
+        </h3>
         <div>
-          <LinkCard />
+          <LinkCard>
+            <HubLink title="PHOTOS" href="https://photos.jenniferlouise.io" />
+          </LinkCard>
         </div>
       </div>
     </>
