@@ -1,21 +1,19 @@
-import HubLink from "../components/Hublink";
-import LinkCard from "../components/LinkCard";
+import { Button } from "@/components/ui/button";
 
 function Home() {
   return (
-    <>
-      <div>
-        <h1>Jennifer Louise</h1>
-        <h3>
-          <i>Chasing daydreams, catching sunbeams</i>
-        </h3>
-        <div>
-          <LinkCard>
-            <HubLink title="PHOTOS" href="https://photos.jenniferlouise.io" />
-          </LinkCard>
+    <div className="min-h-screen flex items-center justify-center">
+      <main className="text-center px-6 relative z-10">
+        <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+          Jennifer Louise
+        </h1>
+        <div className="flex justify-center my-4">
+          <Button variant="outline">
+            <a href="https://photos.jenniferlouise.io">PHOTOS</a>
+          </Button>
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }
 
