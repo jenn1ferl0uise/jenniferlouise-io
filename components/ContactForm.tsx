@@ -46,7 +46,7 @@ const ContactForm = () => {
 
     if (res.ok) {
       toast("Message sent", {
-        description: "Thanks for reaching out 🌞",
+        description: "Thanks for reaching out ☀️",
       });
       e.currentTarget.reset();
     } else {
