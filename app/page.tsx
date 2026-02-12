@@ -10,17 +10,21 @@ export default function Home() {
           Jennifer Louise
         </h1>
 
-        <p className="mt-4 italic text-muted text-md md:text-lg font-soft">
-          Chasing daydreams
+        <p className="mt-4 text-muted text-sm md:text-lg font-soft">
+          Contact me for any enquiries
         </p>
-        <div className="mt-8">
-          <Button variant="outline" asChild>
-            <Link href="https://photos.jenniferlouise.io">Photos</Link>
-          </Button>
-        </div>
       </section>
       <section className="m-auto max-w-2xl mt-4 text-center px-6">
         <ContactForm />
+      </section>
+      <section className="text-center px-6">
+        <div className="mt-8">
+          <Button variant="outline" asChild>
+            <Link href="https://photos.jenniferlouise.io">
+              Check out my photography
+            </Link>
+          </Button>
+        </div>
       </section>
     </>
   );
