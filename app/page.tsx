@@ -16,13 +16,13 @@ const projects = [
   {
     title: "Property Manager",
     description:
-      "A comprehensive property management platform designed to streamline rental property operations, tenant communications, and maintenance tracking.",
+      "A comprehensive property management platform designed to streamline rental property operations and bookingsg.",
     url: "https://property-mananger.jenniferlouise.io/",
   },
   {
     title: "Clinic Manager",
     description:
-      "A modern clinic management app for patient records, appointment scheduling, and secure communication between staff and patients.",
+      "A modern clinic management app for patient records, appointment scheduling, and pateitn history.",
     url: "https://clinic-mananger.jenniferlouise.io/en",
   },
   {
@@ -52,9 +52,9 @@ export default function Home() {
           {projects.map((project) => (
             <Card
               key={project.title}
-              className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-[420px]"
+              className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-105"
             >
-              <div className="relative w-full" style={{ height: "50%" }}>
+              <div className="relative w-full" style={{ height: "45%" }}>
                 <Image
                   src={getPreviewUrl(project.url)}
                   alt={`${project.title} preview`}
@@ -69,16 +69,16 @@ export default function Home() {
                 />
               </div>
               <CardHeader className="pt-4 pb-2">
-                <CardTitle className="text-lg min-h-[32px] flex items-center justify-center text-center">
+                <CardTitle className="text-lg min-h-8 flex items-center justify-center text-center mb-2 sm:mb-0">
                   {project.title}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 flex items-center justify-center min-h-[48px]">
-                <CardDescription className="text-base text-center w-full">
+              <CardContent className="flex-1 flex items-center justify-center min-h-12">
+                <CardDescription className="text-base text-center w-full mb-6 sm:mb-0 px-2 sm:px-0 min-h-20 sm:min-h-12 flex items-center justify-center">
                   {project.description}
                 </CardDescription>
               </CardContent>
-              <CardFooter className="mt-auto pb-4">
+              <CardFooter className="mt-auto pb-4 pt-2 sm:pt-0">
                 <Button asChild className="w-full">
                   <Link
                     href={project.url}
