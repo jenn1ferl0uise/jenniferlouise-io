@@ -95,7 +95,7 @@ const ContactForm = () => {
   }
 
   return (
-    <Card className="p-8 md:p-10 bg-card/50 backdrop-blur-xl border-border/50">
+    <Card className="p-4 md:p-4 bg-card/50 backdrop-blur-xl border-border/50">
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         {/* Honeypot field - hidden from real users, bots will fill it */}
         <div className="hidden" aria-hidden="true">
@@ -150,11 +150,7 @@ const ContactForm = () => {
             required
           />
         </div>
-
-        <Button
-          type="submit"
-          className="w-full h-11 tracking-wide bg-primary hover:bg-accent transition-colors font-medium"
-        >
+        <Button type="submit" className="w-full">
           Send
         </Button>
       </form>

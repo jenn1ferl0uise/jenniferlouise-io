@@ -16,13 +16,13 @@ const projects = [
   {
     title: "Property Manager",
     description:
-      "A comprehensive property management platform designed to streamline rental property operations and bookingsg.",
+      "A comprehensive property management platform designed to streamline rental property operations and bookings.",
     url: "https://property-mananger.jenniferlouise.io/",
   },
   {
     title: "Clinic Manager",
     description:
-      "A modern clinic management app for patient records, appointment scheduling, and pateitn history.",
+      "A modern clinic management app for patient records, appointment scheduling, and patient history.",
     url: "https://clinic-mananger.jenniferlouise.io/en",
   },
   {
@@ -52,7 +52,7 @@ export default function Home() {
           {projects.map((project) => (
             <Card
               key={project.title}
-              className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-105"
+              className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-105 bg-card/50 backdrop-blur-xl"
             >
               <div className="relative w-full" style={{ height: "45%" }}>
                 <Image
