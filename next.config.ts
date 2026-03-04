@@ -5,8 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "image.thum.io",
-        pathname: "/get/**",
+        hostname: "api.microlink.io",
       },
     ],
   },

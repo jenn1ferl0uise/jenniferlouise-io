@@ -18,24 +18,26 @@ const projects = [
     description:
       "A comprehensive property management platform designed to streamline rental property operations and bookings.",
     url: "https://property-mananger.jenniferlouise.io/",
+    image:
+      "https://api.microlink.io/?url=https://property-mananger.jenniferlouise.io&screenshot=true&meta=false&embed=screenshot.url",
   },
   {
     title: "Clinic Manager",
     description:
       "A modern clinic management app for patient records, appointment scheduling, and patient history.",
     url: "https://clinic-mananger.jenniferlouise.io/en",
+    image:
+      "https://api.microlink.io/?url=https://clinic-mananger.jenniferlouise.io/en/&screenshot=true&meta=false&embed=screenshot.url",
   },
   {
     title: "Photography Portfolio",
     description:
       "A showcase of my photography work, featuring curated collections and client galleries.",
     url: "https://photos.jenniferlouise.io",
+    image:
+      "https://api.microlink.io/?url=https://photos.jenniferlouise.io&screenshot=true&meta=false&embed=screenshot.url",
   },
 ];
-
-function getPreviewUrl(url: string) {
-  return `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
-}
 
 export default function Home() {
   return (
@@ -56,16 +58,11 @@ export default function Home() {
             >
               <div className="relative w-full" style={{ height: "45%" }}>
                 <Image
-                  src={getPreviewUrl(project.url)}
+                  src={project.image}
                   alt={`${project.title} preview`}
                   fill
+                  preload={true}
                   className="object-cover"
-                  unoptimized
-                  style={{
-                    objectFit: "cover",
-                    borderTopLeftRadius: "inherit",
-                    borderTopRightRadius: "inherit",
-                  }}
                 />
               </div>
               <CardHeader className="pt-4 pb-2">
