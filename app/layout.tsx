@@ -7,12 +7,15 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 export const metadata: Metadata = {
-  title: "Jennifer Louise | Full Stack Web Developer & Freelancer",
+  title: "Jennifer Louise Lynch | Frontend Web Developer",
   description:
-    "Jennifer Louise is a full stack web developer specializing in React, Next.js, Node.js, PostgreSQL, and Vercel. Available for freelance projects and collaborations.",
+    "Jennifer Louise Lynch is a front end focused full stack web developer specializing in React, Next.js, Node.js, PostgreSQL, and Vercel. Available for freelance projects and collaborations.",
   keywords: [
     "Full Stack Developer",
     "Freelance Web Developer",
+    "Frontend Web Developer",
+    "Front end Web Developer",
+    "Frontend Software Engineer",
     "React",
     "Next.js",
     "Node.js",
@@ -20,19 +23,21 @@ export const metadata: Metadata = {
     "Vercel",
     "Portfolio",
     "Jennifer Louise",
+    "Jennifer Lynch",
+    "Jennifer Louise Lynch",
   ],
   openGraph: {
     title: "Jennifer Louise | Full Stack Web Developer & Freelancer",
     description:
-      "Portfolio and contact for Jennifer Louise, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.",
+      "Portfolio and contact for Jennifer Louise Lynch, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.",
     url: "https://jenniferlouise.io/",
-    siteName: "Jennifer Louise",
+    siteName: "Jennifer Louise Lynch Portfolio",
     images: [
       {
         url: "https://jenniferlouise.io/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Jennifer Louise Portfolio",
+        alt: "Jennifer Louise Lynch Portfolio",
       },
     ],
     locale: "en_GB",
@@ -40,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jennifer Louise | Full Stack Web Developer & Freelancer",
+    title: "Jennifer Louise Lynch | Full Stack Web Developer & Freelancer",
     description:
-      "Portfolio and contact for Jennifer Louise, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.",
+      "Portfolio and contact for Jennifer Louise Lynch, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.",
     images: ["https://jenniferlouise.io/og-image.png"],
   },
   metadataBase: new URL("https://jenniferlouise.io"),
@@ -67,7 +72,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
 
           <footer className="py-6 px-6 text-muted text-center italic text-xs">
-            © 2026
+            © 2026, Jennifer Louise Lynch
           </footer>
           <Toaster position="top-center" />
         </div>
