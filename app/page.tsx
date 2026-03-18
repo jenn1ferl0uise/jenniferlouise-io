@@ -51,11 +51,6 @@ export default function Home() {
             photograph taker & much more...
           </CardContent>
         </Card>
-        <Button className="mt-4" asChild variant="outline">
-          <a href="/jennifer-louise-lynch-cv.pdf" download="Jennifer_Lynch_CV">
-            Check out my CV
-          </a>
-        </Button>
       </section>
 
       <section className="m-auto max-w-4xl mt-12 px-6">
