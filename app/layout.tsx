@@ -68,11 +68,12 @@ export default function RootLayout({
             <br />
             LOUISE
           </span>
-          <header className="py-6 px-6">
+          <header className="py-6 px-12 flex justify-between">
             <Link href="/">JL</Link>
+            <Link href="/#contact">CONTACT</Link>
           </header>
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 mx-auto">{children}</main>
 
           <footer className="py-6 flex px-6 text-muted  italic text-xs justify-between">
             <div>Jennifer Louise Lynch © 2026</div>

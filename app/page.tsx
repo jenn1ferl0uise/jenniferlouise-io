@@ -51,9 +51,12 @@ export default function Home() {
             photograph taker & much more...
           </CardContent>
         </Card>
+        <Button asChild>
+          <Link href="/cv">Check out my CV!</Link>
+        </Button>
       </section>
 
-      <section className="m-auto max-w-4xl mt-12 px-6">
+      <section id="projects" className="m-auto max-w-4xl mt-12 px-6">
         <h2 className="text-xl font-bold text-center mb-8">Projects</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
           {projects.map((project) => (
@@ -105,7 +108,7 @@ export default function Home() {
         </Card>
       </section>
 
-      <section className="m-auto max-w-2xl mt-12 text-center px-6">
+      <section id="contact" className="m-auto max-w-2xl mt-12 text-center px-6">
         <h2 className="text-xl font-bold mb-4">Contact</h2>
         <ContactForm />
       </section>
