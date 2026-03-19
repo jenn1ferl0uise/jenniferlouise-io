@@ -51,7 +51,7 @@ export default function Home() {
             photograph taker & much more...
           </CardContent>
         </Card>
-        <Button asChild>
+        <Button className="mt-6" asChild>
           <Link href="/cv">Check out my CV!</Link>
         </Button>
       </section>
