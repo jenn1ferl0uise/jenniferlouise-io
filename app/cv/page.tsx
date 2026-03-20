@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
+import { useSectionTracking } from "@/hooks/useSectionTracking";
+import { trackEvent } from "@/lib/analytics";
 
 interface Experience {
   title: string;
@@ -21,11 +24,21 @@ interface Skill {
 }
 
 const CV: React.FC = () => {
+  useScrollTracking();
   const [expanded, setExpanded] = useState({
     skills: true,
     experience: true,
     education: false,
   });
+
+  const summaryRef = useSectionTracking("summary");
+  const skillsRef = useSectionTracking("skills");
+  const experienceRef = useSectionTracking("experience");
+  const educationRef = useSectionTracking("education");
+
+  const handleProjectBtnClick = () => {
+    trackEvent.projectsBtnClick();
+  };
 
   const toggleSection = (section: keyof typeof expanded) => {
     setExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -158,7 +171,6 @@ const CV: React.FC = () => {
 
   return (
     <div className="relative w-full">
-      {/* Liquid glass background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-[blob_7s_infinite]" />
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-[blob_7s_infinite_2s]" />
@@ -166,8 +178,10 @@ const CV: React.FC = () => {
       </div>
 
       <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-6">
-        {/* Header */}
-        <header className="animate-[fade-in_0.6s_ease-out_forwards]">
+        <header
+          ref={summaryRef}
+          className="animate-[fade-in_0.6s_ease-out_forwards]"
+        >
           <Card className="bg-card/50 backdrop-blur-xl border-white/10 hover:bg-white/5 transition-colors">
             <CardContent className="p-8 sm:p-10 space-y-4">
               <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
@@ -187,7 +201,11 @@ const CV: React.FC = () => {
                 Passionate about modern architecture, mentoring teams, and
                 shipping products people actually want to use.
                 <Button variant="link">
-                  <Link target="_blank" href="/#projects">
+                  <Link
+                    onClick={handleProjectBtnClick}
+                    target="_blank"
+                    href="/#projects"
+                  >
                     Check out my projects!
                     <ExternalLink className="ml-2 inline size-2" />
                   </Link>
@@ -197,8 +215,10 @@ const CV: React.FC = () => {
           </Card>
         </header>
 
-        {/* Skills Section */}
-        <section className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.1s]">
+        <section
+          ref={skillsRef}
+          className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.1s]"
+        >
           <Card className="bg-card/50 backdrop-blur-xl border-white/10 hover:bg-white/5 transition-colors">
             <CardHeader className="pb-0">
               <Button
@@ -261,8 +281,10 @@ const CV: React.FC = () => {
           </Card>
         </section>
 
-        {/* Experience Section */}
-        <section className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.2s]">
+        <section
+          ref={experienceRef}
+          className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.2s]"
+        >
           <Card className="bg-card/50 backdrop-blur-xl border-white/10 hover:bg-white/5 transition-colors">
             <CardHeader className="pb-0">
               <Button
@@ -343,7 +365,10 @@ const CV: React.FC = () => {
           </Card>
         </section>
 
-        <section className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.3s]">
+        <section
+          ref={educationRef}
+          className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.3s]"
+        >
           <Card className="bg-card/50 backdrop-blur-xl border-white/10 hover:bg-white/5 transition-colors">
             <CardHeader className="pb-0">
               <Button

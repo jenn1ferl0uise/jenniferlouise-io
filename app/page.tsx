@@ -1,4 +1,5 @@
-import ContactForm from "@/components/ContactForm";
+"use client";
+import ContactForm from "@/components/contact-form.tsx";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
+import { useSectionTracking } from "@/hooks/useSectionTracking";
+import { trackEvent } from "@/lib/analytics";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -39,9 +43,20 @@ const projects = [
 ];
 
 export default function Home() {
+  useScrollTracking();
+  const heroRef = useSectionTracking("hero");
+  const projectsRef = useSectionTracking("projects");
+  const aboutRef = useSectionTracking("about");
+  const contactRef = useSectionTracking("contact");
+
+  const handleExternalLinkClick = (url: string, label: string) => {
+    const timestamp = new Date().toISOString();
+    trackEvent.externalLinkClick(url, label, timestamp);
+  };
+
   return (
     <>
-      <section className="text-center px-6 ">
+      <section className="text-center px-6" ref={heroRef}>
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
           Jennifer Louise
         </h1>
@@ -56,7 +71,11 @@ export default function Home() {
         </Button>
       </section>
 
-      <section id="projects" className="m-auto max-w-4xl mt-12 px-6">
+      <section
+        id="projects"
+        ref={projectsRef}
+        className="m-auto max-w-4xl mt-12 px-6"
+      >
         <h2 className="text-xl font-bold text-center mb-8">Projects</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
           {projects.map((project) => (
@@ -80,6 +99,9 @@ export default function Home() {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      handleExternalLinkClick(project.url, project.title)
+                    }
                   >
                     Visit Website
                     <ExternalLink className="ml-2 h-4 w-4" />
@@ -91,7 +113,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="m-auto max-w-2xl mt-12 text-center px-6">
+      <section
+        ref={aboutRef}
+        className="m-auto max-w-2xl mt-12 text-center px-6"
+      >
         <h2 className="text-xl font-bold mb-4">About me</h2>
         <Card className="m-auto max-w-xl mt-12 bg-card/20 backdrop-blur-xl">
           <CardContent className="pt-4!">
@@ -108,7 +133,11 @@ export default function Home() {
         </Card>
       </section>
 
-      <section id="contact" className="m-auto max-w-2xl mt-12 text-center px-6">
+      <section
+        ref={contactRef}
+        id="contact"
+        className="m-auto max-w-2xl mt-12 text-center px-6"
+      >
         <h2 className="text-xl font-bold mb-4">Contact</h2>
         <ContactForm />
       </section>
