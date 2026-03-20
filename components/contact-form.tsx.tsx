@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
 
 export interface EmailFormValues {
   name: string;
@@ -15,7 +17,8 @@ export interface EmailFormValues {
 }
 
 const ContactForm = () => {
-  // Track when the form was rendered (bot detection - real users take time)
+  useScrollTracking();
+
   const formLoadTime = useRef<number>(0);
 
   useEffect(() => {
@@ -24,6 +27,7 @@ const ContactForm = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    trackEvent.contactFormClick();
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -59,6 +63,8 @@ const ContactForm = () => {
     };
 
     if (!values.name.trim() || !values.email.trim() || !values.message.trim()) {
+      trackEvent.contactFormError("incomplete");
+
       toast("Error", {
         description: "Please fill in all fields",
       });
@@ -67,6 +73,8 @@ const ContactForm = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(values.email)) {
+      trackEvent.contactFormError("email");
+
       toast("Error", {
         description: "Please enter a valid email address",
       });
@@ -75,6 +83,8 @@ const ContactForm = () => {
 
     const messageLength = values.message.length;
     if (messageLength < 10) {
+      trackEvent.contactFormError("message");
+
       toast("Minimum message length not met");
       return;
     }
@@ -90,6 +100,8 @@ const ContactForm = () => {
         description: "Thanks for reaching out ☀️",
       });
     } else {
+      trackEvent.contactFormError("failed");
+
       toast("Something went wrong");
     }
   }
