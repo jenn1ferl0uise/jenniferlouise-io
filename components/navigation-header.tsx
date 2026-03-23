@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { trackEvent } from "@/lib/analytics";
-import Link from "next/link";
+import { trackEvent } from '@/lib/analytics';
+import Link from 'next/link';
 
 function NavigationHeader() {
   return (
-    <header className="py-6 px-12 flex justify-between">
+    <header className="flex justify-between px-12 py-6">
       <Link onClick={() => trackEvent.homeBtnClick} href="/">
         JL
       </Link>
