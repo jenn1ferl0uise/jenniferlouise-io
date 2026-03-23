@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.vercel
+*.lock
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Don't format generated files
+.contentlayer
+.mdx-data
+public/sw.js
+public/workbox-*.js

@@ -41,11 +41,12 @@ export const useScrollTracking = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timeOnPageTimer);
-      
+
       // Track final time on page when leaving
       if (!timeOnPageTracked) {
         const timeSpent = Math.round((Date.now() - currentStartTime) / 1000);
-        if (timeSpent > 5) { // Only track if spent more than 5 seconds
+        if (timeSpent > 5) {
+          // Only track if spent more than 5 seconds
           trackEvent.timeOnPage(timeSpent, window.location.pathname);
         }
       }
