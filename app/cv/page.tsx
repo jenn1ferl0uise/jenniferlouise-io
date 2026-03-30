@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useScrollTracking } from '@/hooks/useScrollTracking';
 import { useSectionTracking } from '@/hooks/useSectionTracking';
 import { trackEvent } from '@/lib/analytics';
+import { cn } from '@/lib/utils';
+import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 interface Experience {
   title: string;
@@ -164,7 +164,7 @@ const CV: React.FC = () => {
                 projects, building everything from database schemas to AI-powered features.
                 Passionate about modern architecture, mentoring teams, and shipping products people
                 actually want to use.
-                <Button variant="link">
+                <Button className="px-2" variant="link">
                   <Link onClick={handleProjectBtnClick} target="_blank" href="/#projects">
                     Check out my projects!
                     <ExternalLink className="ml-2 inline size-2" />
@@ -180,7 +180,7 @@ const CV: React.FC = () => {
           className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.1s]"
         >
           <Card className="bg-card/50 border-white/10 backdrop-blur-xl transition-colors hover:bg-white/5">
-            <CardHeader className="pb-0">
+            <CardHeader>
               <Button
                 variant="ghost"
                 onClick={() => toggleSection('skills')}
@@ -218,7 +218,7 @@ const CV: React.FC = () => {
                       key={skillGroup.category}
                       className="bg-card/50 border-white/10 backdrop-blur-xl"
                     >
-                      <CardContent className="space-y-3 sm:p-6">
+                      <CardContent className="space-y-3 p-4 sm:p-6">
                         <h4 className="text-sm font-semibold tracking-wide text-cyan-400 uppercase">
                           {skillGroup.category}
                         </h4>
@@ -246,7 +246,7 @@ const CV: React.FC = () => {
           className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.2s]"
         >
           <Card className="bg-card/50 border-white/10 backdrop-blur-xl transition-colors hover:bg-white/5">
-            <CardHeader className="pb-0">
+            <CardHeader>
               <Button
                 variant="ghost"
                 onClick={() => toggleSection('experience')}
@@ -317,7 +317,7 @@ const CV: React.FC = () => {
           className="animate-[slide-up_0.6s_ease-out_forwards] [animation-delay:0.3s]"
         >
           <Card className="bg-card/50 border-white/10 backdrop-blur-xl transition-colors hover:bg-white/5">
-            <CardHeader className="pb-0">
+            <CardHeader>
               <Button
                 variant="ghost"
                 onClick={() => toggleSection('education')}
