@@ -40,6 +40,12 @@ const projects = [
       'Building a solution to my own problems in organizing trips, alone or with others. A place to keep details, visualize paths while tracking costs.',
     url: 'https://navizo.jenniferlouise.io',
   },
+  {
+    title: 'TurboFlip',
+    description:
+      'Optimization for resellers to generate product descriptions, titles and tags for their listings on platforms like Vinted and eBay, using AI to create compelling content that drives sales.',
+    url: 'https://turboflip.jenniferlouise.io',
+  },
 ];
 
 export default function Home() {
