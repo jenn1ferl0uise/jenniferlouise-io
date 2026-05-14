@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useScrollTracking } from '@/hooks/useScrollTracking';
 import { useSectionTracking } from '@/hooks/useSectionTracking';
 import { trackEvent } from '@/lib/analytics';
+import { cn } from '@/lib/utils';
+import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 interface Experience {
   title: string;
@@ -91,15 +91,16 @@ const CV: React.FC = () => {
 
   const experience: Experience[] = [
     {
-      title: 'Senior Software Engineer',
+      title: 'Software Engineer',
       company: 'Independent Projects',
       location: 'Remote',
       period: 'August 2025 - Present',
       description: [
-        'Built 4 full-stack applications from scratch: travel planning app, property management platform, medical clinic system, and photography portfolio with custom CMS',
-        'Designed PostgreSQL schemas, REST APIs with Next.js, and integrated cloud storage (Cloudflare R2/S3) for production-ready applications',
-        'Wrote PRDs, iterated on UI/UX based on user feedback, and made end-to-end product decisions',
-        'Implemented authentication, RBAC, real-time data sync, and healthcare data privacy compliance',
+        `Built 5 production-ready applications using modern stack (Next.js, TypeScript, React, Tailwind, shadcn/ui) with full ownership from database design through deployment pipelines`,
+        `Implemented CI/CD workflows via GitHub Actions and Vercel, configuring automated deployments, preview environments, and production monitoring with analytics and error tracking`,
+        `Integrated AI-powered features using Claude and OpenAI APIs; adopted AI-assisted development tools (v0, GitHub Copilot) to accelerate prototyping velocity`,
+        `Delivered client websites for property management company and medical consultancy, managing requirements gathering through production launch`,
+        `Architected PostgreSQL databases, RESTful APIs via Next.js server actions, and cloud storage solutions (Cloudflare R2/S3) for scalable systems.`,
       ],
     },
     {
@@ -108,11 +109,13 @@ const CV: React.FC = () => {
       location: 'Barcelona',
       period: 'May 2022 - August 2025',
       description: [
-        'Led frontend for internal A/B testing, segmentation, and user profiling platforms supporting multiple product teams',
-        'Co-led migration from micro frontends to Turborepo monorepo (Vite, PNPM, shadcn, Tailwind), contributing to architecture decisions and driving implementation',
-        'Introduced technical planning processes: RFC documentation, workload estimation, and structured sprint planning that improved delivery predictability',
-        'Mentored engineers through pair programming and delivered workshops on React patterns, testing, and modern tooling',
-        'Partnered with product, design, and backend to optimize data models—reducing client-side processing and improving performance',
+        `Led frontend across two critical product verticals (A/B testing platform, user segmentation, profiling tools) serving multiple product teams simultaneously`,
+        `Improved UX score by 18% (3.8 → 4.5) through comprehensive redesign of A/B testing interface based on external usability review`,
+        `Shipped most-used product of 2024: self-service analytics dashboard that eliminated CS bottleneck, improving team efficiency 100% and reducing support workload`,
+        `Co-led micro frontend → Turborepo monorepo migration (Vite, PNPM, shadcn, Tailwind), improving build times 10% and developer experience`,
+        `Modernized testing: migrated snapshots to Jest/Vitest unit tests, upgraded Cypress to v13 Cloud, mentored juniors in E2E test development`,
+        `Revitalized frontend community from inactive to thriving knowledge-share hub through demos, workshops, and technical presentations`,
+        `Mentored backend engineers transitioning to frontend via PR reviews, pair programming, and Slack support; delivered cross-team workshops`,
       ],
     },
     {
@@ -121,8 +124,8 @@ const CV: React.FC = () => {
       location: 'Barcelona',
       period: 'September 2021 - April 2022',
       description: [
-        'Built customer-facing portal (React, Java) to reduce reliance on support reps and improve self-service UX',
-        'Facilitated client meetings, delivered feedback, and maintained high code quality standards throughout iterative development',
+        'Built customer-facing self-service portal (React, Java) reducing support dependency and improving UX',
+        'Facilitated client meetings, gathered requirements, and maintained code quality through iterative Agile development with paired programming and TDD',
       ],
     },
     {
@@ -131,9 +134,10 @@ const CV: React.FC = () => {
       location: 'Barcelona',
       period: 'May 2019 - September 2021',
       description: [
-        'Led technical discovery for new clients (complexity estimation, web scraping) and integrated external media/analytics/ad providers',
-        'Contributed to Vanilla JS → React migration and promoted to Tech Lead of 5-person pod',
-        'Delivered React and testing workshops for team upskilling',
+        'Led technical discovery for client onboarding (complexity estimation, web scraping, third-party integrations)',
+        'Owned frontend architecture and implementation for publisher platform used by 100+ media sites globally',
+        'Promoted to Tech Lead of 5-person team; drove vanilla JS → React migration and delivered training workshops',
+        'Integrated external media, analytics, and advertising providers for publisher platform',
       ],
     },
   ];
@@ -153,17 +157,17 @@ const CV: React.FC = () => {
               <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
                 Jennifer Louise Lynch
               </h1>
-              <h2 className="text-xl font-medium text-cyan-400 sm:text-2xl">
-                Senior Frontend Software Engineer
-              </h2>
+              <h2 className="text-xl font-medium text-cyan-400 sm:text-2xl">Software Engineer</h2>
               <p className="max-w-3xl leading-relaxed text-slate-300">
-                Senior Frontend Engineer with 6+ years of professional experience building React and
-                TypeScript applications in fast-paced product teams. I thrive at the intersection of
-                design, product, and engineering—writing clean, scalable code while solving real
-                user problems. I recently expanded into full-stack development through independent
-                projects, building everything from database schemas to AI-powered features.
-                Passionate about modern architecture, mentoring teams, and shipping products people
-                actually want to use.
+                Frontend specialized Software Engineer with 7+ years in React and TypeScript, with
+                growing full-stack capabilities. I work at the intersection of design, product, and
+                engineering. Building polished, practical interfaces with end-to-end ownership from
+                concept to production. Comfortable across the stack, collaborating with backend
+                teams to optimize data flows, API design, and processing efficiency. Passionate
+                about working closely with UX and product to build the right solutions. Recently
+                took a career break to travel and deepen full-stack skills through projects
+                involving PostgreSQL, REST APIs, and AI integration. Seeking a product-focused team
+                where quality and user impact drive decisions.
                 <Button variant="link">
                   <Link onClick={handleProjectBtnClick} target="_blank" href="/#projects">
                     Check out my projects!
