@@ -66,8 +66,8 @@ export default function Home() {
         <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">Jennifer Louise</h1>
         <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
           <CardContent className="pt-4!">
-            Senior software engineer, people person, travel enthusiast, amature photograph taker &
-            much more...
+            Software engineer, people person, travel enthusiast, amature photograph taker & much
+            more...
           </CardContent>
         </Card>
         <Button className="mt-6" asChild>
@@ -115,8 +115,8 @@ export default function Home() {
         <h2 className="mb-4 text-xl font-bold">About me</h2>
         <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
           <CardContent className="pt-4!">
-            I&apos;m a Senior Frontend Engineer with 6+ years building React and TypeScript
-            applications within technical and cross dicipline teams.
+            I&apos;m a Frontend focused software engineer with 7+ years building React and
+            TypeScript applications within technical and cross dicipline teams.
             <br />I care deeply about creating simple, intuitive interfaces that solve real
             problems.. not only for looking good. <br />
             These days, I&apos;m expanding beyond the frontend. I build full-stack applications from
