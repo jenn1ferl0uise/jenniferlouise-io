@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
 import prettier from 'eslint-config-prettier';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -9,11 +10,16 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
 
+  // Next.js rules (core-web-vitals includes recommended). eslint-config-next's own flat
+  // config is not used: its parser is not yet compatible with ESLint 10.
+  nextPlugin.configs['core-web-vitals'],
+
+  // React Hooks recommended rules (rules-of-hooks, exhaustive-deps, React Compiler rules)
+  reactHooks.configs.flat.recommended,
+
   {
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-    },
+    plugins: { react },
+    settings: { react: { version: '19.2' } },
     rules: {
       // TypeScript
       '@typescript-eslint/no-unused-vars': [
@@ -29,7 +35,6 @@ export default [
       // React
       'react/self-closing-comp': 'warn',
       'react/jsx-curly-brace-presence': ['warn', { props: 'never', children: 'never' }],
-      'react-hooks/exhaustive-deps': 'warn',
 
       // General
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -38,7 +43,7 @@ export default [
     },
   },
 
-  // 👇 THIS is the key line
+  // Keep last so it turns off formatting rules that conflict with Prettier
   prettier,
 
   {
