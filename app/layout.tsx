@@ -66,7 +66,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased ${inter.variable} ${dmSans.variable}`}>
         <div className="bg-background text-foreground flex min-h-screen flex-col">
-          <span className="inset-05 text-foreground/10 pointer-events-none fixed self-center text-center text-[20rem] leading-none font-extrabold font-stretch-condensed select-none">
+          <span
+            aria-hidden="true"
+            className="text-foreground/10 pointer-events-none fixed self-center text-center text-[20rem] leading-none font-extrabold font-stretch-condensed select-none"
+          >
             JENNIFER
             <br />
             LOUISE
@@ -75,7 +78,7 @@ export default function RootLayout({
           <main className="mx-auto flex-1">{children}</main>
 
           <footer className="text-muted flex justify-between px-6 py-6 text-xs italic">
-            <div>Jennifer Louise Lynch © 2026</div>
+            <div>Jennifer Louise Lynch © {new Date().getFullYear()}</div>
             <FooterLinks />
           </footer>
           <Toaster position="top-center" />

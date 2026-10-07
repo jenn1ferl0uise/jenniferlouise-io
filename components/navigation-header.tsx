@@ -6,10 +6,10 @@ import Link from 'next/link';
 function NavigationHeader() {
   return (
     <header className="flex justify-between px-12 py-6">
-      <Link onClick={() => trackEvent.homeBtnClick} href="/">
+      <Link onClick={trackEvent.homeBtnClick} href="/">
         JL
       </Link>
-      <Link onClick={() => trackEvent.contactBtnClick} href="/#contact">
+      <Link onClick={trackEvent.contactBtnClick} href="/#contact">
         CONTACT
       </Link>
     </header>

@@ -55,18 +55,13 @@ export default function Home() {
   const aboutRef = useSectionTracking('about');
   const contactRef = useSectionTracking('contact');
 
-  const handleExternalLinkClick = (url: string, label: string) => {
-    const timestamp = new Date().toISOString();
-    trackEvent.externalLinkClick(url, label, timestamp);
-  };
-
   return (
     <>
       <section className="px-6 text-center" ref={heroRef}>
         <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">Jennifer Louise</h1>
         <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
           <CardContent className="pt-4!">
-            Software engineer, people person, travel enthusiast, amature photograph taker & much
+            Software engineer, people person, travel enthusiast, amateur photograph taker & much
             more...
           </CardContent>
         </Card>
@@ -99,7 +94,7 @@ export default function Home() {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => handleExternalLinkClick(project.url, project.title)}
+                    onClick={() => trackEvent.externalLinkClick(project.url, project.title)}
                   >
                     Visit Website
                     <ExternalLink className="ml-2 h-4 w-4" />
@@ -116,9 +111,9 @@ export default function Home() {
         <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
           <CardContent className="pt-4!">
             I&apos;m a Frontend focused software engineer with 7+ years building React and
-            TypeScript applications within technical and cross dicipline teams.
+            TypeScript applications within technical and cross discipline teams.
             <br />I care deeply about creating simple, intuitive interfaces that solve real
-            problems.. not only for looking good. <br />
+            problems, not only for looking good. <br />
             These days, I&apos;m expanding beyond the frontend. I build full-stack applications from
             database schema to deploy button, which has given me a much better understanding of how
             data flows through a product and how architectural decisions impact the entire user
