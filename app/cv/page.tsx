@@ -168,8 +168,8 @@ const CV: React.FC = () => {
                 took a career break to travel and deepen full-stack skills through projects
                 involving PostgreSQL, REST APIs, and AI integration. Seeking a product-focused team
                 where quality and user impact drive decisions.
-                <Button variant="link">
-                  <Link onClick={handleProjectBtnClick} target="_blank" href="/#projects">
+                <Button variant="link" asChild>
+                  <Link onClick={handleProjectBtnClick} href="/#projects">
                     Check out my projects!
                     <ExternalLink className="ml-2 inline size-2" />
                   </Link>

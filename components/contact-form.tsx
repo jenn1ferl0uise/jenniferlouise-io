@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -8,17 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { trackEvent } from '@/lib/analytics';
-import { useScrollTracking } from '@/hooks/useScrollTracking';
-
-export interface EmailFormValues {
-  name: string;
-  email: string;
-  message: string;
-}
+import { validateContact, type EmailFormValues } from '@/lib/contact-validation';
 
 const ContactForm = () => {
-  useScrollTracking();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formLoadTime = useRef<number>(0);
 
   useEffect(() => {
@@ -27,6 +20,7 @@ const ContactForm = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (isSubmitting) return;
     trackEvent.contactFormClick();
 
     const form = e.currentTarget;
@@ -62,47 +56,42 @@ const ContactForm = () => {
       message: (formData.get('message') ?? '') as string,
     };
 
-    if (!values.name.trim() || !values.email.trim() || !values.message.trim()) {
-      trackEvent.contactFormError('incomplete');
+    const validation = validateContact(values);
+    if (!validation.ok) {
+      trackEvent.contactFormError(validation.error);
 
-      toast('Error', {
-        description: 'Please fill in all fields',
-      });
+      if (validation.error === 'incomplete') {
+        toast('Error', { description: 'Please fill in all fields' });
+      } else if (validation.error === 'email') {
+        toast('Error', { description: 'Please enter a valid email address' });
+      } else {
+        toast('Minimum message length not met');
+      }
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(values.email)) {
-      trackEvent.contactFormError('email');
-
-      toast('Error', {
-        description: 'Please enter a valid email address',
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
       });
-      return;
-    }
 
-    const messageLength = values.message.length;
-    if (messageLength < 10) {
-      trackEvent.contactFormError('message');
-
-      toast('Minimum message length not met');
-      return;
-    }
-
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      body: formData,
-    });
-    form.reset();
-
-    if (res.ok) {
-      toast('Message sent', {
-        description: 'Thanks for reaching out ☀️',
-      });
-    } else {
+      if (res.ok) {
+        form.reset();
+        trackEvent.contactFormSubmit();
+        toast('Message sent', {
+          description: 'Thanks for reaching out ☀️',
+        });
+      } else {
+        trackEvent.contactFormError('failed');
+        toast('Something went wrong');
+      }
+    } catch {
       trackEvent.contactFormError('failed');
-
       toast('Something went wrong');
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -116,7 +105,7 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <Label htmlFor="name" className="hidden tracking-wider">
+          <Label htmlFor="name" className="sr-only tracking-wider">
             Name
           </Label>
           <Input
@@ -130,7 +119,7 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <Label htmlFor="email" className="hidden tracking-wider">
+          <Label htmlFor="email" className="sr-only tracking-wider">
             Email
           </Label>
           <Input
@@ -144,7 +133,7 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <Label htmlFor="message" className="hidden tracking-wider">
+          <Label htmlFor="message" className="sr-only tracking-wider">
             Message
           </Label>
           <Textarea
@@ -156,8 +145,8 @@ const ContactForm = () => {
             required
           />
         </div>
-        <Button type="submit" className="w-full">
-          Send
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? 'Sending…' : 'Send'}
         </Button>
       </form>
     </Card>
