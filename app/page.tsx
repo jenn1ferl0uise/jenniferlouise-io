@@ -1,5 +1,5 @@
 'use client';
-import ContactForm from '@/components/contact-form.tsx';
+import ContactForm from '@/components/contact-form';
 import { Button } from '@/components/ui/button';
 import {
   Card,

@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { MAX_LENGTH, validateContact } from '@/lib/contact-validation';
 
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_MAX = 5;
@@ -54,28 +53,24 @@ function isRateLimited(ip: string): boolean {
 function sanitizeInput(input: string): string {
   return input
     .trim()
-    .slice(0, 5000) // Limit length
+    .slice(0, MAX_LENGTH) // Limit length
     .replace(/<[^>]*>/g, '') // Remove HTML tags
     .replace(/[<>]/g, ''); // Remove remaining angle brackets
 }
 
+const URL_REGEX = /http[s]?:\/\/[^\s]+/gi;
+
 // Basic validation for suspicious content
 function containsSuspiciousContent(text: string): boolean {
-  const suspiciousPatterns = [
-    /<script/i,
-    /javascript:/i,
-    /onclick/i,
-    /onerror/i,
-    /http[s]?:\/\/[^\s]+/gi, // More than 3 URLs is suspicious
-  ];
+  const suspiciousPatterns = [/<script/i, /javascript:/i, /onclick/i, /onerror/i];
 
   // Check for script injection patterns
-  for (const pattern of suspiciousPatterns.slice(0, 4)) {
+  for (const pattern of suspiciousPatterns) {
     if (pattern.test(text)) return true;
   }
 
   // Check for excessive URLs (common in spam)
-  const urlMatches = text.match(suspiciousPatterns[4]);
+  const urlMatches = text.match(URL_REGEX);
   if (urlMatches && urlMatches.length > 3) return true;
 
   return false;
@@ -127,10 +122,18 @@ export async function POST(req: NextRequest) {
   const sanitizedEmail = sanitizeInput(email.toString());
   const sanitizedMessage = sanitizeInput(message.toString());
 
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(sanitizedEmail)) {
-    return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
+  const validation = validateContact({
+    name: sanitizedName,
+    email: sanitizedEmail,
+    message: sanitizedMessage,
+  });
+  if (!validation.ok) {
+    const errors = {
+      incomplete: 'Missing fields',
+      email: 'Invalid email format',
+      message: 'Message is too short',
+    };
+    return NextResponse.json({ error: errors[validation.error] }, { status: 400 });
   }
 
   // Check for suspicious content
@@ -138,6 +141,13 @@ export async function POST(req: NextRequest) {
   if (containsSuspiciousContent(fullContent)) {
     return NextResponse.json({ error: 'Message contains suspicious content' }, { status: 400 });
   }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set');
+    return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
+  }
+  const resend = new Resend(apiKey);
 
   try {
     await resend.emails.send({
