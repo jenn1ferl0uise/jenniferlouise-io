@@ -6,8 +6,6 @@ import TimeOfDayToggle from '@/components/time-of-day-toggle';
 import { Cat, Fish, Snail } from '@/components/animals';
 import { links, principles, projects, recentProjects, site } from '@/content/site';
 
-const photoPlaceholders = ['from above', 'water', 'through', 'lines'];
-
 export default function Home() {
   return (
     <div className="site">
@@ -132,28 +130,6 @@ export default function Home() {
             <Fish />
           </div>
 
-          <section className="cell photo" data-section="photos" aria-labelledby="photo-h">
-            <div className="photo-head">
-              <h2 id="photo-h">
-                <span className="lbl">(d) photos</span>
-                From above, through and across
-              </h2>
-              <a
-                href={links.photos.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-track-label="Photos: see all"
-              >
-                See all photos <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <div className="strip" aria-hidden="true">
-              {photoPlaceholders.map((caption) => (
-                <span key={caption} data-cap={caption} />
-              ))}
-            </div>
-          </section>
-
           <section
             className="cell hello"
             id="hello"
@@ -161,7 +137,7 @@ export default function Home() {
             aria-labelledby="hello-h"
           >
             <Cat />
-            <span className="lbl">(e) say hello</span>
+            <span className="lbl">(d) say hello</span>
             <h2 id="hello-h">
               Have a role or a project <em>in mind?</em>
             </h2>

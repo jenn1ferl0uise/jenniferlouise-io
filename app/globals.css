@@ -228,7 +228,6 @@
     'open1 open1 w1    w1    w2    w2'
     'w3    w3    w4    w4    w5    w5'
     'how   how   how   open2 open2 open2'
-    'photo photo photo photo photo photo'
     'hello hello hello hello open3 open3'
     'foot  foot  foot  foot  foot  foot';
   gap: var(--gap);
@@ -584,8 +583,7 @@
   align-content: start;
   gap: 16px;
 }
-.how h2,
-.photo-head h2 {
+.how h2 {
   font:
     700 1.5rem/1.05 var(--font-display),
     system-ui,
@@ -618,73 +616,6 @@
   grid-area: open2;
   position: relative;
   min-height: 200px;
-}
-
-/* photos */
-.photo {
-  grid-area: photo;
-  display: grid;
-  gap: 18px;
-}
-.photo-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
-  gap: 10px;
-}
-.photo-head h2 {
-  display: grid;
-  gap: 4px;
-}
-.photo-head a {
-  font-size: 14px;
-}
-.strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-.strip span {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  border-radius: 10px;
-}
-.strip span::after {
-  content: attr(data-cap);
-  position: absolute;
-  left: 8px;
-  bottom: 6px;
-  font:
-    400 10px/1 var(--font-mono),
-    ui-monospace,
-    monospace;
-  color: #fff;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
-}
-.strip span:nth-child(1) {
-  background: radial-gradient(ellipse at 35% 60%, #2a9cb0 0 22%, #0c4f61 23% 40%, #d7b98c 41%);
-}
-.strip span:nth-child(2) {
-  background: linear-gradient(
-    180deg,
-    var(--sky-low),
-    var(--sky-mid) 50%,
-    var(--water) 51%,
-    var(--deep)
-  );
-}
-.strip span:nth-child(3) {
-  background:
-    linear-gradient(90deg, #2b2430 0 18%, transparent 18% 82%, #2b2430 82%),
-    linear-gradient(180deg, #ffd9a8, #e98c6d);
-}
-.strip span:nth-child(4) {
-  background:
-    linear-gradient(120deg, transparent 47%, #3a2f36 47% 49%, transparent 49%),
-    linear-gradient(30deg, transparent 47%, #3a2f36 47% 49%, transparent 49%),
-    linear-gradient(170deg, transparent 47%, #3a2f36 47% 49%, transparent 49%), #e9dccb;
 }
 
 /* hello */
@@ -1028,7 +959,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       'nav nav' 'hero hero' 'recent open1' 'w1 w2' 'w3 w4' 'w5 how'
-      'open2 open2' 'photo photo' 'hello hello' 'foot foot';
+      'open2 open2' 'hello hello' 'foot foot';
   }
   .open2 {
     min-height: 140px;
@@ -1044,7 +975,7 @@
     padding: 18px;
     grid-template-areas:
       'nav nav' 'hero hero' 'recent recent' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
-      'w4 w4' 'w5 w5' 'how how' 'open2 open2' 'photo photo' 'hello hello' 'foot foot';
+      'w4 w4' 'w5 w5' 'how how' 'open2 open2' 'hello hello' 'foot foot';
   }
   .nav {
     flex-direction: column;
@@ -1063,9 +994,6 @@
   }
   .open1 {
     padding-top: 12px;
-  }
-  .strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .contact-form {
     grid-template-columns: minmax(0, 1fr);
