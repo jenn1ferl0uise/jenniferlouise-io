@@ -6,6 +6,7 @@ export const site = {
   role: 'Frontend Engineer',
   description:
     'Frontend engineer with 7+ years building React and TypeScript products. Calm, careful interfaces, plus photography from above.',
+  currently: 'Codeway',
   previously: ['Scopely', 'Thoughtworks', 'Marfeel'],
 } as const;
 

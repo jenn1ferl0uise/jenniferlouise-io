@@ -25,7 +25,7 @@
   --gap: clamp(20px, 2.6vw, 30px);
 
   /* Frosted glass cards: light glass with the normal dark ink reads over every part of the sky. */
-  --glass-bg: rgb(255 255 255 / 0.42);
+  --glass-bg: rgb(255 255 255 / 0.6);
   --glass-border: rgb(255 255 255 / 0.5);
 
   /* Depth: a lit top edge, a soft bottom edge and layered shadows tinted by the sky. */
@@ -90,7 +90,7 @@
   --silhouette: #f4ecd8;
   --on-sky: #f2e8dc;
   --sun-y: 14%;
-  --glass-bg: rgb(255 255 255 / 0.07);
+  --glass-bg: rgb(44 46 88 / 0.5);
   --glass-border: rgb(255 255 255 / 0.16);
   --edge-light: rgb(255 255 255 / 0.12);
   --edge-dark: rgb(0 0 0 / 0.25);
@@ -280,7 +280,7 @@
 
 /* Glass variant: alternates with solid cards so the sky shows through. */
 .cell.glass {
-  --soft: color-mix(in srgb, var(--ink) 72%, transparent);
+  --soft: color-mix(in srgb, var(--ink) 86%, transparent);
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
@@ -296,7 +296,7 @@
 .cell.glass li span,
 .cell.glass li a > span,
 .cell.glass .ff .friction dd {
-  color: color-mix(in srgb, var(--ink) 84%, transparent);
+  color: color-mix(in srgb, var(--ink) 92%, transparent);
 }
 .cell.glass.project:hover {
   box-shadow:
@@ -398,11 +398,16 @@
   line-height: 1.65;
   color: color-mix(in srgb, var(--ink) 82%, var(--plate));
 }
-.hero .previously {
+.hero .career {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
   font-size: 0.95rem;
 }
-.hero .previously .lbl {
-  margin-right: 6px;
+.hero .career dd {
+  margin: 0;
 }
 
 /* recent projects (beside the hero) */

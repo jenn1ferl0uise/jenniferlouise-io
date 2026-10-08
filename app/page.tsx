@@ -28,13 +28,16 @@ export default function Home() {
               Frontend engineer turning <em>friction into flow.</em>
             </p>
             <p>
-              Seven years building React and TypeScript products. I like the small details that make
-              software feel calm, and I photograph the world from above when I&apos;m not at a
-              keyboard.
+              More than seven years building React and TypeScript products. I like the small details
+              that make software feel calm, and I photograph the world from above when I&apos;m not
+              at a keyboard.
             </p>
-            <p className="previously">
-              <span className="lbl">previously</span> {site.previously.join(' · ')}
-            </p>
+            <dl className="career">
+              <dt className="lbl">currently</dt>
+              <dd>{site.currently}</dd>
+              <dt className="lbl">previously</dt>
+              <dd>{site.previously.join(' · ')}</dd>
+            </dl>
             <div className="actions">
               <a className="btn primary" href="#work">
                 Explore my projects
