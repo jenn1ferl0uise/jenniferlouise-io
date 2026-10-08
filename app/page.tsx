@@ -15,7 +15,7 @@ export default function Home() {
       <PageTracking />
 
       <div className="grid">
-        <header className="cell nav">
+        <header className="nav">
           <a href="#top" className="name">
             {site.name}
           </a>
@@ -50,8 +50,6 @@ export default function Home() {
             </ul>
           </nav>
         </header>
-
-        <div className="open sky0" aria-hidden="true" />
 
         <main id="main" className="contents">
           <section className="cell hero" id="top" data-section="hero" aria-labelledby="hero-h">

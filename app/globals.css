@@ -224,7 +224,6 @@
   grid-template-columns: repeat(6, minmax(0, 1fr));
   grid-template-areas:
     'nav   nav   nav   nav   nav   nav'
-    'sky0  sky0  sky0  sky0  sky0  sky0'
     'hero  hero  hero  hero  pics  pics'
     'open1 open1 w1    w1    w2    w2'
     'w3    w3    w4    w4    w5    w5'
@@ -297,15 +296,27 @@
   margin-top: 4px;
 }
 
-/* nav */
+/* nav: frosted glass over the sky, no solid card */
 .nav {
   grid-area: nav;
+  position: relative;
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 14px 24px;
-  padding-block: 20px;
+  margin-bottom: clamp(4px, 1.5vw, 16px);
+  padding: 16px clamp(20px, 2.4vw, 32px);
+  border: 1px solid color-mix(in srgb, var(--on-sky) 22%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--on-sky) 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent),
+    0 10px 30px -18px rgb(0 0 0 / 0.35);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  color: var(--on-sky);
 }
 .nav .name {
   font:
@@ -333,12 +344,7 @@
 }
 .nav ul span {
   font-size: 11px;
-  color: var(--soft);
-}
-
-.sky0 {
-  grid-area: sky0;
-  min-height: clamp(90px, 14vw, 180px);
+  opacity: 0.75;
 }
 
 /* hero */
@@ -347,7 +353,7 @@
   display: grid;
   align-content: center;
   gap: 24px;
-  padding-block: clamp(40px, 7vw, 88px);
+  padding-block: clamp(32px, 4.5vw, 56px);
   animation-delay: 0.05s;
 }
 .hero h1 {
@@ -833,9 +839,9 @@
   overflow: visible;
 }
 
-/* birds: sunrise and sunset, flying through the open strip under the nav */
+/* birds: sunrise and sunset, drifting behind the glass nav */
 .birds {
-  top: clamp(130px, 14vw, 190px);
+  top: calc(var(--gap) + 22px);
   left: 0;
   animation: fly 26s linear infinite;
 }
@@ -1041,7 +1047,7 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'nav nav' 'sky0 sky0' 'hero hero' 'pics open1' 'w1 w2' 'w3 w4' 'w5 how'
+      'nav nav' 'hero hero' 'pics open1' 'w1 w2' 'w3 w4' 'w5 how'
       'open2 open2' 'photo photo' 'hello hello' 'foot foot';
   }
   .open2 {
@@ -1057,17 +1063,15 @@
     --gap: 22px;
     padding: 18px;
     grid-template-areas:
-      'nav nav' 'sky0 sky0' 'hero hero' 'pics pics' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
+      'nav nav' 'hero hero' 'pics pics' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
       'w4 w4' 'w5 w5' 'how how' 'open2 open2' 'photo photo' 'hello hello' 'foot foot';
   }
   .nav {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
-    padding: 22px;
-  }
-  .sky0 {
-    min-height: 110px;
+    padding: 20px 22px;
+    border-radius: 22px;
   }
   .hero {
     gap: 22px;
