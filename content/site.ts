@@ -21,8 +21,12 @@ export const links = {
   linkedin: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/jennifer-louise-lynch' },
 } satisfies Record<string, ExternalLink>;
 
+export type ProjectKind = 'product' | 'client';
+
 export interface Project {
   id: string;
+  /** "product": my own products; "client": work built for clients. */
+  kind: ProjectKind;
   title: string;
   url: string;
   friction: string;
@@ -33,14 +37,8 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'clinic-manager',
-    title: 'Clinic Manager',
-    url: 'https://clinic-mananger.jenniferlouise.io/en',
-    friction: 'Patient records, appointments and history spread across spreadsheets.',
-    flow: 'One place for records, scheduling and patient history.',
-  },
-  {
     id: 'navizo',
+    kind: 'product',
     title: 'Navizo',
     url: links.navizo.url,
     friction: 'Trip plans scattered across group chats, notes and maps.',
@@ -48,26 +46,40 @@ export const projects: Project[] = [
   },
   {
     id: 'turboflip',
+    kind: 'product',
     title: 'TurboFlip',
     url: 'https://turboflip.jenniferlouise.io',
     friction: 'Resellers rewriting the same listing copy over and over.',
     flow: 'Titles, descriptions and tags for Vinted and eBay, generated in seconds.',
   },
   {
-    id: 'property-manager',
-    title: 'Property Manager',
-    url: 'https://property-mananger.jenniferlouise.io/',
-    friction: 'Rentals and bookings managed by hand.',
-    flow: 'Properties, bookings and operations together in one view.',
-  },
-  {
     id: 'photos',
+    kind: 'product',
     title: 'Photos',
     url: links.photos.url,
     friction: 'Thousands of photos and nowhere good to show them.',
     flow: 'A custom portfolio with an admin panel for uploads.',
   },
+  {
+    id: 'clinic-manager',
+    kind: 'client',
+    title: 'Clinic Manager',
+    url: 'https://clinic-mananger.jenniferlouise.io/en',
+    friction: 'Patient records, appointments and history spread across spreadsheets.',
+    flow: 'One place for records, scheduling and patient history.',
+  },
+  {
+    id: 'property-manager',
+    kind: 'client',
+    title: 'Property Manager',
+    url: 'https://property-mananger.jenniferlouise.io/',
+    friction: 'Rentals and bookings managed by hand.',
+    flow: 'Properties, bookings and operations together in one view.',
+  },
 ];
+
+export const productProjects = projects.filter((project) => project.kind === 'product');
+export const clientProjects = projects.filter((project) => project.kind === 'client');
 
 export const principles = [
   { title: 'Listen before building.', body: 'Understand where the friction really is first.' },

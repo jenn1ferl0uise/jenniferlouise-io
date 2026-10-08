@@ -4,7 +4,14 @@ import ProjectCard from '@/components/project-card';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
 import { Cat, Fish, Snail } from '@/components/animals';
-import { links, principles, projects, recentProjects, site } from '@/content/site';
+import {
+  clientProjects,
+  links,
+  principles,
+  productProjects,
+  recentProjects,
+  site,
+} from '@/content/site';
 
 export default function Home() {
   return (
@@ -79,19 +86,32 @@ export default function Home() {
 
           <div className="open open1" id="work">
             <h2 className="sky-chip">
-              <span className="lbl">(b) work</span>
+              <span className="lbl">(b) my products</span>
               Things I&apos;ve <em>built</em>
             </h2>
           </div>
 
-          {projects.map((project, i) => (
-            <div key={project.id} className={`w${i + 1}`} data-section={`project:${project.id}`}>
+          {productProjects.map((project, i) => (
+            <div key={project.id} className={`p${i + 1}`} data-section={`project:${project.id}`}>
+              <ProjectCard project={project} glass={i % 2 === 1} />
+            </div>
+          ))}
+
+          <div className="open openc">
+            <h2 className="sky-chip">
+              <span className="lbl">(c) client work</span>
+              Built <em>for others</em>
+            </h2>
+          </div>
+
+          {clientProjects.map((project, i) => (
+            <div key={project.id} className={`c${i + 1}`} data-section={`project:${project.id}`}>
               <ProjectCard project={project} glass={i % 2 === 1} />
             </div>
           ))}
 
           <section className="cell how glass" data-section="how" aria-labelledby="how-h">
-            <span className="lbl">(c) how i work</span>
+            <span className="lbl">(d) how i work</span>
             <h2 id="how-h">Careful by default</h2>
             <ul>
               {principles.map((p) => (
@@ -114,7 +134,7 @@ export default function Home() {
             aria-labelledby="hello-h"
           >
             <Cat />
-            <span className="lbl">(d) say hello</span>
+            <span className="lbl">(e) say hello</span>
             <h2 id="hello-h">
               Have a role or a project <em>in mind?</em>
             </h2>

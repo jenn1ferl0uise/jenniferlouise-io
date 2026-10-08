@@ -248,8 +248,9 @@
   grid-template-areas:
     'nav   nav   nav   nav   nav   nav'
     'hero  hero  hero  hero  recent recent'
-    'open1 open1 w1    w1    w2    w2'
-    'w3    w3    w4    w4    w5    w5'
+    'open1 open1 open1 open1 open1 open1'
+    'p1    p1    p2    p2    p3    p3'
+    'openc openc c1    c1    c2    c2'
     'how   how   how   open2 open2 open2'
     'hello hello hello hello open3 open3'
     'foot  foot  foot  foot  foot  foot';
@@ -427,6 +428,7 @@
 }
 .hero h1 em,
 .open1 h2 em,
+.openc h2 em,
 .hello h2 em {
   font:
     italic 400 1.1em/1 var(--font-serif),
@@ -517,26 +519,32 @@
     sans-serif;
   letter-spacing: -0.025em;
 }
-.w1 {
-  grid-area: w1;
+.openc {
+  grid-area: openc;
+  display: grid;
+  align-content: end;
+  justify-items: start;
 }
-.w2 {
-  grid-area: w2;
+.p1 {
+  grid-area: p1;
 }
-.w3 {
-  grid-area: w3;
+.p2 {
+  grid-area: p2;
 }
-.w4 {
-  grid-area: w4;
+.p3 {
+  grid-area: p3;
 }
-.w5 {
-  grid-area: w5;
+.c1 {
+  grid-area: c1;
 }
-.w1,
-.w2,
-.w3,
-.w4,
-.w5 {
+.c2 {
+  grid-area: c2;
+}
+.p1,
+.p2,
+.p3,
+.c1,
+.c2 {
   display: grid;
   min-width: 0;
 }
@@ -1021,7 +1029,7 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent open1' 'w1 w2' 'w3 w4' 'w5 how'
+      'nav nav' 'hero hero' 'recent open1' 'p1 p2' 'p3 openc' 'c1 c2' 'how how'
       'open2 open2' 'hello hello' 'foot foot';
   }
   .open2 {
@@ -1037,8 +1045,8 @@
     --gap: 22px;
     padding: 18px;
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent recent' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
-      'w4 w4' 'w5 w5' 'how how' 'open2 open2' 'hello hello' 'foot foot';
+      'nav nav' 'hero hero' 'recent recent' 'open1 open1' 'p1 p1' 'p2 p2' 'p3 p3'
+      'openc openc' 'c1 c1' 'c2 c2' 'how how' 'open2 open2' 'hello hello' 'foot foot';
   }
   .nav {
     padding: 16px 22px;
@@ -1051,7 +1059,8 @@
     font-size: 2.1rem;
     line-height: 1.05;
   }
-  .open1 {
+  .open1,
+  .openc {
     padding-top: 12px;
   }
   .contact-form {
@@ -1156,16 +1165,16 @@
   --drift-rot: 0deg;
 }
 .hero,
-.w1 > .cell,
-.w3 > .cell,
-.w5 > .cell,
+.p1 > .cell,
+.p3 > .cell,
+.c1 > .cell,
 .how {
   --drift-x: -36px;
   --drift-rot: -1.5deg;
 }
 .recent,
-.w2 > .cell,
-.w4 > .cell,
+.p2 > .cell,
+.c2 > .cell,
 .hello,
 .sky-chip {
   --drift-x: 36px;
