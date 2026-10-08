@@ -149,7 +149,8 @@
 .site {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  /* clip, not hidden: hidden would make .site a scroll container and break view() timelines */
+  overflow: clip;
   min-height: 100vh;
 }
 
@@ -1006,51 +1007,58 @@
 }
 
 /* ==========================================================================
-   Scroll merge
-   Cards fade and rise in from below, then soften into the sky as they pass
-   under the top edge. Pure CSS scroll-driven animations: browsers without
-   support (or visitors who prefer reduced motion) get the static page.
+   Scroll dissolve
+   As the page scrolls, the top of the page (nav, hero, recent projects)
+   fades and drifts up into the sky while the project cards scroll over it.
+   Cards further down fade and rise in as they enter. Pure CSS scroll-driven
+   animations: browsers without support (or visitors who prefer reduced
+   motion) get the static page.
    ========================================================================== */
-
-.scroll-fade {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 5;
-  height: clamp(72px, 9vw, 110px);
-  pointer-events: none;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  mask-image: linear-gradient(to bottom, #000 35%, transparent);
-}
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .cell:not(.nav) {
-      animation: merge linear both;
+    .cell {
+      animation: rise-in linear both;
       animation-timeline: view();
-      animation-range: entry 0% exit 100%;
+      animation-range: entry 0% entry 70%;
+    }
+    .nav,
+    .cell.hero,
+    .cell.recent {
+      /* Each fades as it scrolls off the top, so stacked cards on mobile stay readable. */
+      animation: dissolve linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
     }
   }
 }
 
-@keyframes merge {
-  entry 0% {
+@keyframes rise-in {
+  from {
     opacity: 0;
     transform: translateY(32px) scale(0.98);
-    filter: blur(6px);
   }
-  entry 70% {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dissolve {
+  0% {
     opacity: 1;
     transform: none;
     filter: blur(0);
+    visibility: visible;
   }
-  exit 75% {
-    opacity: 1;
-    filter: blur(0);
+  99% {
+    visibility: visible;
   }
-  exit 100% {
-    opacity: 0.25;
-    filter: blur(4px);
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.97);
+    filter: blur(6px);
+    visibility: hidden;
   }
 }
 
@@ -1062,8 +1070,7 @@
     transition: none !important;
   }
   .birds,
-  .animal-fish,
-  .scroll-fade {
+  .animal-fish {
     display: none;
   }
 }

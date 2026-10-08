@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <div className="site">
       <Sky />
-      <div className="scroll-fade" aria-hidden="true" />
       <PageTracking />
 
       <div className="grid">
