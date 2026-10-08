@@ -24,6 +24,19 @@
   --radius: 16px;
   --gap: clamp(20px, 2.6vw, 30px);
 
+  /* Depth: a lit top edge, a soft bottom edge and layered shadows tinted by the sky. */
+  --edge-light: rgb(255 255 255 / 0.75);
+  --edge-dark: rgb(40 20 50 / 0.08);
+  --shadow-tint: 40 18 55;
+  --depth:
+    inset 0 1px 0 var(--edge-light), inset 0 -2px 0 var(--edge-dark),
+    0 1px 2px rgb(var(--shadow-tint) / 0.1), 0 8px 18px -8px rgb(var(--shadow-tint) / 0.22),
+    0 30px 50px -24px rgb(var(--shadow-tint) / 0.4);
+  --depth-raised:
+    inset 0 1px 0 var(--edge-light), inset 0 -2px 0 var(--edge-dark),
+    0 2px 4px rgb(var(--shadow-tint) / 0.12), 0 16px 28px -10px rgb(var(--shadow-tint) / 0.28),
+    0 44px 70px -28px rgb(var(--shadow-tint) / 0.5);
+
   color-scheme: light;
 }
 
@@ -73,6 +86,9 @@
   --silhouette: #f4ecd8;
   --on-sky: #f2e8dc;
   --sun-y: 14%;
+  --edge-light: rgb(255 255 255 / 0.12);
+  --edge-dark: rgb(0 0 0 / 0.25);
+  --shadow-tint: 2 4 14;
   color-scheme: dark;
 }
 
@@ -242,7 +258,14 @@
   min-width: 0;
   padding: clamp(20px, 2.4vw, 32px);
   border-radius: var(--radius);
-  background: var(--plate);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--plate) 88%, #fff) 0%,
+    var(--plate) 45%,
+    color-mix(in srgb, var(--plate) 96%, var(--ink)) 100%
+  );
+  box-shadow: var(--depth);
+  transition: box-shadow 0.3s ease;
   animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .open {
@@ -313,8 +336,11 @@
   border-radius: 999px;
   background: color-mix(in srgb, var(--on-sky) 10%, transparent);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent),
-    0 10px 30px -18px rgb(0 0 0 / 0.35);
+    inset 0 1px 0 color-mix(in srgb, #fff 45%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, #000 12%, transparent),
+    inset 0 0 24px -12px color-mix(in srgb, #fff 40%, transparent),
+    0 2px 4px rgb(var(--shadow-tint) / 0.12),
+    0 18px 36px -16px rgb(var(--shadow-tint) / 0.45);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
   color: var(--on-sky);
@@ -450,6 +476,7 @@
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--plate) 72%, transparent);
   backdrop-filter: blur(8px);
+  box-shadow: var(--depth);
   font:
     700 clamp(1.4rem, 2.6vw, 1.9rem)/1.05 var(--font-display),
     system-ui,
@@ -519,7 +546,7 @@
   border-radius: var(--radius);
 }
 .project:hover {
-  box-shadow: 0 14px 30px -18px rgb(0 0 0 / 0.45);
+  box-shadow: var(--depth-raised);
 }
 .ff {
   display: grid;
@@ -1008,55 +1035,49 @@
 
 /* ==========================================================================
    Scroll dissolve
-   As the page scrolls, the top of the page (nav, hero, recent projects)
-   fades and drifts up into the sky while the project cards scroll over it.
-   Cards further down fade and rise in as they enter. Pure CSS scroll-driven
-   animations: browsers without support (or visitors who prefer reduced
-   motion) get the static page.
+   Every card (and the nav) tilts up into place as it enters from below, then
+   dissolves into the sky, tilting back, as it scrolls off the top. Each
+   element follows its own position, so tall or stacked cards stay readable
+   until they reach the top. Pure CSS scroll-driven animations: browsers
+   without support (or visitors who prefer reduced motion) get the static page.
    ========================================================================== */
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .cell {
-      animation: rise-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 70%;
-    }
     .nav,
-    .cell.hero,
-    .cell.recent {
-      /* Each fades as it scrolls off the top, so stacked cards on mobile stay readable. */
-      animation: dissolve linear both;
+    .cell,
+    .sky-chip {
+      animation: drift-through linear both;
       animation-timeline: view();
-      animation-range: exit 0% exit 100%;
+      /* "cover" = entry 0% → exit 100%. Written as one keyword because the CSS
+         minifier rewrites "entry 0% exit 100%" into the broken "entry exit 0%". */
+      animation-range: cover;
     }
   }
 }
 
-@keyframes rise-in {
-  from {
+@keyframes drift-through {
+  entry 0% {
     opacity: 0;
-    transform: translateY(32px) scale(0.98);
+    transform: perspective(1000px) translateY(40px) rotateX(14deg) scale(0.97);
   }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes dissolve {
-  0% {
+  entry 75% {
     opacity: 1;
     transform: none;
     filter: blur(0);
     visibility: visible;
   }
-  99% {
+  exit 30% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+  exit 99% {
     visibility: visible;
   }
-  100% {
+  exit 100% {
     opacity: 0;
-    transform: translateY(-48px) scale(0.97);
+    transform: perspective(1000px) translateY(-40px) rotateX(-12deg) scale(0.96);
     filter: blur(6px);
     visibility: hidden;
   }
