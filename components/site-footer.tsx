@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
-import { Snail } from '@/components/animals';
+import { Turtle } from '@/components/animals';
 import { links, site } from '@/content/site';
 
 export default function SiteFooter() {
@@ -31,7 +31,7 @@ export default function SiteFooter() {
           linkedin
         </a>
       </span>
-      <Snail />
+      <Turtle />
     </footer>
   );
 }

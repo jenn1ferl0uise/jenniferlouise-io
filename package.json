@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
     "type-check": "tsc --noEmit",
-    "check": "pnpm type-check && pnpm lint && pnpm format:check"
+    "check": "pnpm type-check && pnpm lint && pnpm format:check",
+    "previews:capture": "node scripts/capture-previews.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -37,6 +38,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "playwright": "1.56.1",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",

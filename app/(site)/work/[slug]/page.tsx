@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import QuoteCta from '@/components/quote-cta';
 import { features } from '@/content/features';
 import { WORK_KINDS, WORK_STATUS, getCaseStudy, work } from '@/content/work';
+import SiteHeader from '@/components/site-header';
 import { pageMetadata } from '@/lib/metadata';
 import { estimateDays, formatRange, quoteHref } from '@/lib/quote';
 
@@ -38,7 +39,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   return (
     <main id="main" className="page case">
-      <div className="open sky0-short" aria-hidden="true" />
+      <SiteHeader />
 
       <header className="cell case-head col-4" data-section={`case:${slug}`}>
         <span className="lbl">

@@ -43,6 +43,24 @@ export default [
     },
   },
 
+  // Node scripts (some code runs inside the browser via Playwright's page.evaluate)
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        document: 'readonly',
+        innerHeight: 'readonly',
+        performance: 'readonly',
+        requestAnimationFrame: 'readonly',
+        scrollTo: 'readonly',
+        scrollY: 'readonly',
+      },
+    },
+    rules: { 'no-console': 'off' },
+  },
+
   // Keep last so it turns off formatting rules that conflict with Prettier
   prettier,
 

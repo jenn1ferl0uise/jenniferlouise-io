@@ -1,6 +1,7 @@
 /**
  * Small hidden animals. Each one is only visible at certain times of day (see globals.css):
- * fish at day and sunset, cat at night, snail at sunrise and day. Birds live in <Sky />.
+ * fish at day and sunset, cat at night, turtle at sunrise and day. Birds live in <Sky />.
+ * The volcano is always there, puffing smoke by day and glowing at sunset and night.
  */
 
 export function Fish() {
@@ -31,14 +32,45 @@ export function Cat() {
   );
 }
 
-export function Snail() {
+export function Turtle() {
   return (
-    <span className="animal snail" aria-hidden="true">
-      <svg width="26" height="16" viewBox="0 0 26 16">
-        <path className="body" d="M0 15 Q4 11 10 12 L22 12 Q25 12 25 15 Z" />
-        <path className="horns" d="M3 12 L1 6 M5 12 L5 6" />
-        <circle className="shell" cx="15" cy="8" r="6" />
-        <circle className="shell" cx="15" cy="8" r="3" />
+    <span className="animal turtle" aria-hidden="true">
+      <svg width="42" height="24" viewBox="0 0 42 24">
+        {/* far legs (behind the shell) */}
+        <rect className="leg far" x="14" y="15" width="3.5" height="6" rx="1.6" />
+        <rect className="leg far step-b" x="28" y="15" width="3.5" height="6" rx="1.6" />
+        <path className="skin" d="M7 16 L3 18 L8 18 Z" />
+        <g className="head">
+          <path className="skin" d="M32 14 Q35 11 38.5 12 Q41 13.5 39 16 Q36 17.5 32 17 Z" />
+          <circle className="eye" cx="37.5" cy="13.6" r="0.7" />
+        </g>
+        <path className="shell" d="M7 17 Q7 4 20 4 Q33 4 34 17 Z" />
+        <path
+          className="scutes"
+          d="M13 16 L15 10 L20.5 8 L26 10 L28 16 M15 10 L11 9.5 M26 10 L30 9.5 M20.5 8 L20.5 4.5"
+        />
+        <rect className="rim" x="6" y="16" width="29" height="2.4" rx="1.2" />
+        {/* near legs (in front) */}
+        <rect className="leg" x="10" y="16" width="4" height="6.5" rx="1.8" />
+        <rect className="leg step-b" x="25" y="16" width="4" height="6.5" rx="1.8" />
+      </svg>
+    </span>
+  );
+}
+
+export function Volcano() {
+  return (
+    <span className="animal volcano" aria-hidden="true">
+      <svg width="44" height="34" viewBox="0 0 52 40">
+        <circle className="puff" cx="26" cy="14" r="4.5" />
+        <circle className="puff" cx="28" cy="14" r="4" />
+        <circle className="puff" cx="24" cy="14" r="3.5" />
+        <path
+          className="cone"
+          d="M0 40 Q10 30 17 20 Q19 17.5 21 19 Q26 17 31 19 Q33 17.5 35 20 Q42 30 52 40 Z"
+        />
+        <ellipse className="lava" cx="26" cy="19.3" rx="4.6" ry="1.3" />
+        <path className="lava" d="M24.5 20.2 Q22 26 18.5 31 Q23.5 27 26.5 20.4 Z" />
       </svg>
     </span>
   );

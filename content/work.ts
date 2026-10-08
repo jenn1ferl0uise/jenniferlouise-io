@@ -149,11 +149,11 @@ const turboflip: CaseStudy = {
 
 const photos: CaseStudy = {
   slug: 'photos',
-  title: 'Photos',
+  title: 'Photography',
   kind: 'own',
   status: 'live',
-  friction: 'Thousands of photos and nowhere good to show them.',
-  flow: 'A custom portfolio with an admin panel for uploads.',
+  friction: 'Years of my photos from above, through and across, with nowhere to show them.',
+  flow: 'My photography site, with its own admin panel for uploads and collections.',
   role: 'Design and build',
   liveUrl: links.photos.url,
   problem: [
@@ -186,7 +186,7 @@ const photos: CaseStudy = {
 const clinicManager: CaseStudy = {
   slug: 'clinic-manager',
   title: 'Clinic Manager',
-  kind: 'own',
+  kind: 'client',
   status: 'poc',
   friction: 'Patient records, appointments and history spread across spreadsheets.',
   flow: 'One place for records, scheduling and patient history.',
@@ -333,3 +333,10 @@ export function getCaseStudy(slug: string): CaseStudy | undefined {
 export function getWorkByKind(kind: WorkKind): CaseStudy[] {
   return work.filter((study) => study.kind === kind);
 }
+
+/** Shown in the "Recent projects" card next to the hero, most recent first. */
+const recentSlugs = ['navizo', 'photos', 'turboflip'];
+
+export const recentWork = recentSlugs
+  .map(getCaseStudy)
+  .filter((study): study is CaseStudy => study !== undefined);

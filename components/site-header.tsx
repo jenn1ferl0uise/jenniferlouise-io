@@ -1,47 +1,18 @@
 import Link from 'next/link';
-import { links, site } from '@/content/site';
+import { site } from '@/content/site';
 
+/**
+ * Inner pages only: a way back home and to the contact form. The homepage has no nav, since its
+ * hero already links to the work and the form.
+ */
 export default function SiteHeader() {
   return (
-    <header className="cell nav">
+    <header className="subnav">
       <Link href="/" className="name">
+        <span aria-hidden="true">← </span>
         {site.name}
       </Link>
-      <nav aria-label="Main">
-        <ul>
-          <li>
-            <Link href="/#work">Work</Link>
-          </li>
-          <li>
-            <a
-              href={links.photos.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-track-label="Nav: Photos"
-            >
-              Photos <span aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href={links.navizo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-track-label="Nav: Navizo"
-            >
-              Navizo <span aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <Link href="/#hello">Say hello</Link>
-          </li>
-          <li>
-            <Link href="/quote" className="nav-cta">
-              Get a quote
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      <Link href="/#hello">Say hello</Link>
     </header>
   );
 }

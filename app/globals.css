@@ -24,6 +24,25 @@
   --radius: 16px;
   --gap: clamp(20px, 2.6vw, 30px);
 
+  /* Frosted glass cards: light glass with the normal dark ink reads over every part of the sky. */
+  --glass-bg: rgb(255 255 255 / 0.72);
+  /* out-of-focus cards on mobile: see-through enough to read as "passed" */
+  --glass-faint: rgb(255 255 255 / 0.3);
+  --glass-border: rgb(255 255 255 / 0.5);
+
+  /* Depth: a lit top edge, a soft bottom edge and layered shadows tinted by the sky. */
+  --edge-light: rgb(255 255 255 / 0.75);
+  --edge-dark: rgb(40 20 50 / 0.08);
+  --shadow-tint: 40 18 55;
+  --depth:
+    inset 0 1px 0 var(--edge-light), inset 0 -2px 0 var(--edge-dark),
+    0 1px 2px rgb(var(--shadow-tint) / 0.1), 0 8px 18px -8px rgb(var(--shadow-tint) / 0.22),
+    0 30px 50px -24px rgb(var(--shadow-tint) / 0.4);
+  --depth-raised:
+    inset 0 1px 0 var(--edge-light), inset 0 -2px 0 var(--edge-dark),
+    0 2px 4px rgb(var(--shadow-tint) / 0.12), 0 16px 28px -10px rgb(var(--shadow-tint) / 0.28),
+    0 44px 70px -28px rgb(var(--shadow-tint) / 0.5);
+
   color-scheme: light;
 }
 
@@ -73,6 +92,12 @@
   --silhouette: #f4ecd8;
   --on-sky: #f2e8dc;
   --sun-y: 14%;
+  --glass-bg: rgb(44 46 88 / 0.6);
+  --glass-faint: rgb(44 46 88 / 0.28);
+  --glass-border: rgb(255 255 255 / 0.16);
+  --edge-light: rgb(255 255 255 / 0.12);
+  --edge-dark: rgb(0 0 0 / 0.25);
+  --shadow-tint: 2 4 14;
   color-scheme: dark;
 }
 
@@ -149,6 +174,7 @@
 .site {
   position: relative;
   isolation: isolate;
+  /* clip, not hidden: hidden would make .site a scroll container and break view() timelines */
   overflow: clip;
   min-height: 100vh;
 }
@@ -226,18 +252,8 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--gap);
-}
-
-.cell {
-  position: relative;
-  min-width: 0;
-  padding: clamp(20px, 2.4vw, 32px);
-  border-radius: var(--radius);
-  background: var(--plate);
-  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.open {
-  min-width: 0;
+  /* a strip of open sky above the hero (birds fly through it) */
+  padding-top: clamp(24px, 3vw, 36px);
 }
 
 /* Each page's <main> spans the grid and shares its columns, so pages only describe their own cells. */
@@ -262,13 +278,83 @@
 
 .home {
   grid-template-areas:
-    'sky0  sky0  sky0  sky0  sky0  sky0'
-    'hero  hero  hero  hero  pics  pics'
-    'work  work  work  work  work  work'
-    'other other other other other other'
-    'how   how   how   open2 open2 open2'
-    'photo photo photo photo photo photo'
-    'hello hello hello hello open3 open3';
+    'hero  hero  hero  hero  recent recent'
+    'products products products products products products'
+    'clients clients clients clients clients clients'
+    'how   how   hello hello hello hello';
+}
+
+/* inner pages: a way back home, sitting on the sky above the first card */
+.subnav {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 600;
+  color: var(--on-sky);
+}
+.subnav a {
+  text-decoration: none;
+}
+.subnav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.subnav .name {
+  font:
+    700 1.05rem/1 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.cell {
+  position: relative;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 32px);
+  border-radius: var(--radius);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--plate) 88%, #fff) 0%,
+    var(--plate) 45%,
+    color-mix(in srgb, var(--plate) 96%, var(--ink)) 100%
+  );
+  box-shadow: var(--depth);
+  transition: box-shadow 0.3s ease;
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.open {
+  min-width: 0;
+}
+
+/* Glass variant: alternates with solid cards so the sky shows through. */
+.cell.glass {
+  --soft: color-mix(in srgb, var(--ink) 86%, transparent);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, #000 10%, transparent),
+    inset 0 0 30px -14px color-mix(in srgb, #fff 45%, transparent),
+    0 2px 4px rgb(var(--shadow-tint) / 0.1),
+    0 20px 40px -18px rgb(var(--shadow-tint) / 0.4);
+}
+/* Secondary text mixes towards the plate colour on solid cards; on glass keep it darker for contrast. */
+.cell.glass li span,
+.cell.glass li a > span,
+.cell.glass .ff .friction dd {
+  color: color-mix(in srgb, var(--ink) 92%, transparent);
+}
+.cell.glass.project:hover {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    inset 0 0 30px -14px color-mix(in srgb, #fff 45%, transparent),
+    0 4px 8px rgb(var(--shadow-tint) / 0.14),
+    0 30px 56px -22px rgb(var(--shadow-tint) / 0.5);
 }
 
 .lbl {
@@ -318,69 +404,40 @@
   margin-top: 4px;
 }
 
-/* nav */
-.nav {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px 24px;
-  padding-block: 20px;
-}
-.nav .name {
-  font:
-    700 17px/1 var(--font-display),
-    system-ui,
-    sans-serif;
-  letter-spacing: -0.015em;
-  text-decoration: none;
-}
-.nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-}
-.nav ul a {
-  text-decoration: none;
-}
-.nav ul a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.nav ul span {
-  font-size: 11px;
-  color: var(--soft);
-}
-
-.sky0 {
-  grid-area: sky0;
-  min-height: clamp(90px, 14vw, 180px);
-}
-
 /* hero */
 .hero {
   grid-area: hero;
   display: grid;
   align-content: center;
   gap: 24px;
-  padding-block: clamp(40px, 7vw, 88px);
+  padding-block: clamp(32px, 4.5vw, 56px);
   animation-delay: 0.05s;
 }
 .hero h1 {
-  max-width: 16ch;
   font:
-    700 clamp(2.1rem, 4.4vw, 3.5rem)/1.02 var(--font-display),
+    800 clamp(2.5rem, 5.6vw, 4.4rem)/0.95 var(--font-display),
     system-ui,
     sans-serif;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.05em;
 }
-.hero h1 em,
-.sky-chip em,
+.hero .tagline {
+  max-width: 34ch;
+  margin-top: -6px;
+  font:
+    600 clamp(1.3rem, 2.4vw, 1.9rem)/1.15 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.hero .tagline-rest {
+  display: block;
+}
+.hero .tagline em {
+  white-space: nowrap;
+}
+.hero .tagline em,
+.group-head h2 em,
 .hello h2 em,
 .quote-form h2 em,
 .quote-cta h2 em,
@@ -398,114 +455,191 @@
   line-height: 1.65;
   color: color-mix(in srgb, var(--ink) 82%, var(--plate));
 }
-.hero .previously {
+.hero .career {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
   font-size: 0.95rem;
 }
-.hero .previously .lbl {
-  margin-right: 6px;
+.hero .career dd {
+  margin: 0;
 }
 
-/* photo stack */
-.pics {
-  grid-area: pics;
-  overflow: hidden;
-  min-height: 300px;
+/* recent projects (beside the hero) */
+.recent {
+  grid-area: recent;
+  display: grid;
+  /* "All projects" sits at the bottom when the card stretches to the hero's height */
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
   animation-delay: 0.12s;
 }
-.pol {
-  position: absolute;
-  width: 52%;
-  aspect-ratio: 4 / 5;
-  padding: 7px 7px 20px;
-  background: #fffdf8;
-  box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.45);
-  transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.3, 1);
+.recent ul {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.pol i {
-  display: block;
-  height: 100%;
+/* each project is its own light tile, so it reads clearly over any part of the sky */
+.recent li a {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--plate) 72%, transparent);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
-.pol.p1 {
-  left: 6%;
-  top: 14%;
-  transform: rotate(-7deg);
+.recent li a:hover {
+  background: color-mix(in srgb, var(--plate) 92%, transparent);
 }
-.pol.p1 i {
-  background: linear-gradient(180deg, var(--sky-low), var(--sky-mid) 55%, var(--water) 56%);
-}
-.pol.p2 {
-  left: 26%;
-  top: 5%;
-  z-index: 2;
-  transform: rotate(4deg);
-}
-.pol.p2 i {
-  background: radial-gradient(ellipse at 35% 60%, #2a9cb0 0 22%, #0c4f61 23% 40%, #d7b98c 41%);
-}
-.pol.p3 {
-  left: 44%;
-  top: 22%;
-  transform: rotate(-2deg);
-}
-.pol.p3 i {
-  background:
-    linear-gradient(135deg, transparent 48%, #3a2f36 48% 51%, transparent 51%),
-    linear-gradient(60deg, transparent 48%, #3a2f36 48% 51%, transparent 51%), #ead8c6;
-}
-.pics:hover .pol.p1 {
-  transform: rotate(-12deg) translate(-8px, 4px);
-}
-.pics:hover .pol.p2 {
-  transform: rotate(0) translateY(-8px);
-}
-.pics:hover .pol.p3 {
-  transform: rotate(7deg) translate(8px, 4px);
-}
-.pics .cap {
-  position: absolute;
-  left: 20px;
-  bottom: 14px;
-  z-index: 3;
+.recent li strong {
   font:
-    400 1.5rem/1 var(--font-hand),
-    cursive;
+    700 1.15rem/1.15 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+.recent li strong span {
+  font-size: 0.8em;
+  color: var(--soft);
+}
+.recent li a > span {
+  font-size: 14px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--ink) 72%, var(--plate));
+}
+.recent li a:hover strong {
   color: var(--pop);
-  transform: rotate(-3deg);
+}
+.recent-all {
+  justify-self: start;
+  font-size: 14px;
+  text-underline-offset: 4px;
 }
 
-/* work: each group shares the page columns and auto-places its cards, three to a row */
-.work-own {
-  grid-area: work;
-}
-.work-client {
-  grid-area: other;
-}
-.work-group {
+/* work: each group is one frosted panel holding its cards */
+.group {
+  position: relative;
+  min-width: 0;
   display: grid;
-  grid-template-columns: subgrid;
-  row-gap: var(--gap);
+  gap: clamp(18px, 2vw, 24px);
+  padding: clamp(20px, 2.6vw, 34px);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--radius) + 8px);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 50%, transparent),
+    inset 0 0 40px -18px color-mix(in srgb, #fff 40%, transparent),
+    0 2px 4px rgb(var(--shadow-tint) / 0.08),
+    0 24px 48px -24px rgb(var(--shadow-tint) / 0.4);
 }
-.work-group > * {
-  grid-column: span 2;
+.group-products {
+  grid-area: products;
+}
+.group-clients {
+  grid-area: clients;
 }
 .group-head {
   display: grid;
-  align-content: end;
-  justify-items: start;
+  gap: 6px;
 }
-.sky-chip {
+.group-head > div {
   display: grid;
   gap: 4px;
-  padding: 14px 20px;
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--plate) 72%, transparent);
-  backdrop-filter: blur(8px);
+}
+.group-head .lbl {
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+.group-head h2 {
   font:
-    700 clamp(1.4rem, 2.6vw, 1.9rem)/1.05 var(--font-display),
+    700 clamp(1.6rem, 3vw, 2.3rem)/1.05 var(--font-display),
     system-ui,
     sans-serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
+.group-head p {
+  font-size: 15px;
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+}
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+/* Moving previews (scripts/capture-previews.mjs). Two looks: */
+.project-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+/* 1. "top": the clip is a framed screen at the top of the card. */
+.preview-top .project-media {
+  aspect-ratio: 16 / 10;
+  margin: calc(clamp(20px, 2.4vw, 32px) * -0.4) calc(clamp(20px, 2.4vw, 32px) * -0.4) 2px;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 4px);
+  background: color-mix(in srgb, var(--ink) 10%, var(--plate));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent),
+    0 8px 18px -10px rgb(var(--shadow-tint) / 0.35);
+}
+/* 2. "behind": the clip fills the card under a soft wash so the text stays readable. */
+.preview-behind {
+  isolation: isolate;
+  overflow: hidden;
+}
+.preview-behind .project-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.preview-behind .project-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--plate) 94%, transparent) 0%,
+    color-mix(in srgb, var(--plate) 82%, transparent) 55%,
+    color-mix(in srgb, var(--plate) 92%, transparent) 100%
+  );
+}
+
+/* "your project?" slot in the client group */
+.cta {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  background: color-mix(in srgb, var(--plate) 55%, transparent);
+  border: 1.5px dashed color-mix(in srgb, var(--ink) 30%, transparent);
+  box-shadow: none;
+}
+.cta h3 {
+  font:
+    700 1.3rem/1.1 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+.cta p {
+  font-size: 14.5px;
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+}
+.cta .btn {
+  justify-self: start;
+  margin-top: 4px;
+}
+
 .project {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -558,7 +692,7 @@
   border-radius: var(--radius);
 }
 .project:hover {
-  box-shadow: 0 14px 30px -18px rgb(0 0 0 / 0.45);
+  box-shadow: var(--depth-raised);
 }
 .ff {
   display: grid;
@@ -621,11 +755,11 @@
 .how {
   grid-area: how;
   display: grid;
-  align-content: start;
+  /* label, title, then the list fills the rest so the card matches the contact form's height */
+  grid-template-rows: auto auto 1fr;
   gap: 16px;
 }
-.how h2,
-.photo-head h2 {
+.how h2 {
   font:
     700 1.5rem/1.05 var(--font-display),
     system-ui,
@@ -634,6 +768,7 @@
 }
 .how ul {
   display: grid;
+  align-content: space-evenly;
   gap: 14px;
   margin: 0;
   padding: 0;
@@ -654,79 +789,6 @@
   color: color-mix(in srgb, var(--ink) 75%, var(--plate));
 }
 
-.open2 {
-  grid-area: open2;
-  position: relative;
-  min-height: 200px;
-}
-
-/* photos */
-.photo {
-  grid-area: photo;
-  display: grid;
-  gap: 18px;
-}
-.photo-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
-  gap: 10px;
-}
-.photo-head h2 {
-  display: grid;
-  gap: 4px;
-}
-.photo-head a {
-  font-size: 14px;
-}
-.strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-.strip span {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  border-radius: 10px;
-}
-.strip span::after {
-  content: attr(data-cap);
-  position: absolute;
-  left: 8px;
-  bottom: 6px;
-  font:
-    400 10px/1 var(--font-mono),
-    ui-monospace,
-    monospace;
-  color: #fff;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
-}
-.strip span:nth-child(1) {
-  background: radial-gradient(ellipse at 35% 60%, #2a9cb0 0 22%, #0c4f61 23% 40%, #d7b98c 41%);
-}
-.strip span:nth-child(2) {
-  background: linear-gradient(
-    180deg,
-    var(--sky-low),
-    var(--sky-mid) 50%,
-    var(--water) 51%,
-    var(--deep)
-  );
-}
-.strip span:nth-child(3) {
-  background:
-    linear-gradient(90deg, #2b2430 0 18%, transparent 18% 82%, #2b2430 82%),
-    linear-gradient(180deg, #ffd9a8, #e98c6d);
-}
-.strip span:nth-child(4) {
-  background:
-    linear-gradient(120deg, transparent 47%, #3a2f36 47% 49%, transparent 49%),
-    linear-gradient(30deg, transparent 47%, #3a2f36 47% 49%, transparent 49%),
-    linear-gradient(170deg, transparent 47%, #3a2f36 47% 49%, transparent 49%), #e9dccb;
-}
-
 /* hello */
 .hello {
   grid-area: hello;
@@ -745,10 +807,6 @@
   max-width: 52ch;
   color: color-mix(in srgb, var(--ink) 80%, var(--plate));
 }
-.open3 {
-  grid-area: open3;
-}
-
 .contact-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -797,19 +855,6 @@
 }
 .contact-form .btn {
   justify-self: start;
-}
-
-/* nav cta */
-.nav ul a.nav-cta {
-  padding: 7px 14px;
-  border: 1.5px solid var(--ink);
-  border-radius: 99px;
-  font-weight: 600;
-}
-.nav ul a.nav-cta:hover {
-  background: var(--ink);
-  color: var(--plate);
-  text-decoration: none;
 }
 
 /* shared headings for inner pages and cards */
@@ -1188,9 +1233,9 @@
   overflow: visible;
 }
 
-/* birds: sunrise and sunset, flying through the open strip under the nav */
+/* birds: sunrise and sunset, flying through the sky above the hero */
 .birds {
-  top: clamp(130px, 14vw, 190px);
+  top: clamp(12px, 2vw, 22px);
   left: 0;
   animation: fly 26s linear infinite;
 }
@@ -1214,6 +1259,13 @@
 }
 
 /* fish: day and sunset, jumping in an open patch of water */
+.fish-spot {
+  position: absolute;
+  top: 57%;
+  left: 4%;
+  width: 220px;
+  height: 140px;
+}
 .animal-fish {
   position: absolute;
   inset: 0;
@@ -1267,27 +1319,84 @@
   opacity: 1;
 }
 
-/* snail: sunrise and day, crossing the footer very slowly */
-.snail {
+/* volcano: always there, sitting on the hello card; smoke by day, a glowing crater after dark */
+.volcano {
+  left: 28px;
+  top: -32px;
+  z-index: 2;
+  opacity: 1;
+}
+.volcano .cone {
+  /* a shade off the card colour, so it reads as a volcano and not a bump in the card */
+  fill: color-mix(in srgb, var(--plate) 55%, #7a5444);
+}
+.volcano .lava {
+  fill: var(--pop);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+[data-time='sunset'] .volcano .lava,
+[data-time='night'] .volcano .lava {
+  opacity: 0.9;
+  animation: glow 3.2s ease-in-out infinite alternate;
+}
+.volcano .puff {
+  fill: color-mix(in srgb, var(--on-sky) 85%, var(--plate));
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: puff 6s ease-out infinite;
+}
+.volcano .puff:nth-child(2) {
+  animation-delay: 2s;
+}
+.volcano .puff:nth-child(3) {
+  animation-delay: 4s;
+}
+
+/* turtle: sunrise and day, walking slowly across the footer */
+.turtle {
   left: 0;
-  bottom: 4px;
-  animation: crawl 90s linear infinite;
+  bottom: 2px;
+  animation: crawl 75s linear infinite;
 }
-.snail .body {
-  fill: var(--soft);
+.turtle .shell {
+  fill: #6f8f55;
 }
-.snail .horns {
+.turtle .rim {
+  fill: #56733f;
+}
+.turtle .scutes {
   fill: none;
-  stroke: var(--soft);
-  stroke-width: 1.2;
+  stroke: rgb(255 255 255 / 0.4);
+  stroke-width: 1;
+  stroke-linejoin: round;
 }
-.snail .shell {
-  fill: none;
-  stroke: var(--pop);
-  stroke-width: 1.5;
+.turtle .skin,
+.turtle .leg {
+  fill: #a3b685;
 }
-[data-time='sunrise'] .snail,
-[data-time='day'] .snail {
+.turtle .leg.far {
+  fill: #8a9e6c;
+}
+.turtle .eye {
+  fill: #2a2030;
+}
+.turtle .leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: step 0.9s ease-in-out infinite alternate;
+}
+.turtle .leg.step-b {
+  animation-delay: -0.45s;
+}
+.turtle .head {
+  transform-box: fill-box;
+  transform-origin: 0% 60%;
+  animation: nod 1.8s ease-in-out infinite;
+}
+[data-time='sunrise'] .turtle,
+[data-time='day'] .turtle {
   opacity: 1;
 }
 
@@ -1379,6 +1488,37 @@
     transform: scaleY(0.1);
   }
 }
+@keyframes step {
+  from {
+    transform: rotate(-22deg);
+  }
+  to {
+    transform: rotate(22deg);
+  }
+}
+@keyframes nod {
+  50% {
+    transform: translateY(1px) rotate(-4deg);
+  }
+}
+@keyframes puff {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  20% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, -18px) scale(1.8);
+  }
+}
+@keyframes glow {
+  to {
+    opacity: 0.55;
+  }
+}
 @keyframes crawl {
   from {
     transform: translateX(-40px);
@@ -1398,11 +1538,8 @@
   }
   .home {
     grid-template-areas:
-      'sky0 sky0' 'hero hero' 'pics how' 'work work' 'other other' 'open2 open2' 'photo photo'
-      'hello hello';
-  }
-  .work-group > * {
-    grid-column: span 1;
+      'hero hero' 'recent recent' 'products products' 'clients clients'
+      'how how' 'hello hello';
   }
   .col-2,
   .col-3,
@@ -1415,55 +1552,22 @@
   .summary {
     position: static;
   }
-  .open2 {
-    min-height: 140px;
-  }
-  .open3 {
-    display: none;
-  }
 }
 
 @media (max-width: 599px) {
   .grid {
     --gap: 22px;
-    padding: 18px;
-  }
-  .home {
-    grid-template-areas:
-      'sky0 sky0' 'hero hero' 'pics pics' 'work work' 'other other' 'how how' 'open2 open2'
-      'photo photo' 'hello hello';
-  }
-  .work-group > * {
-    grid-column: 1 / -1;
-  }
-  .nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 22px;
-  }
-  .sky0 {
-    min-height: 110px;
+    padding: 24px 18px 18px;
   }
   .hero {
     gap: 22px;
     padding: 36px 24px 40px;
   }
   .hero h1 {
-    font-size: 2.1rem;
-    line-height: 1.05;
+    font-size: 2.6rem;
   }
-  .pics {
-    min-height: 330px;
-  }
-  .pol {
-    width: 46%;
-  }
-  .group-head {
-    padding-top: 12px;
-  }
-  .strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .hero .tagline {
+    font-size: 1.35rem;
   }
   .contact-form {
     grid-template-columns: minmax(0, 1fr);
@@ -1474,6 +1578,155 @@
   .foot {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   Scroll dissolve
+   Every card rises straight up into place as it enters from below, then
+   dissolves into the sky, tilting back, as it scrolls off the top. Each
+   element follows its own position, so tall or stacked cards stay readable
+   until they reach the top. Pure CSS scroll-driven animations: browsers
+   without support (or visitors who prefer reduced motion) get the static page.
+   ========================================================================== */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cell {
+      animation: drift-through linear both;
+      animation-timeline: view();
+      /* "cover" = entry 0% → exit 100%. Written as one keyword because the CSS
+         minifier rewrites "entry 0% exit 100%" into the broken "entry exit 0%". */
+      animation-range: cover;
+    }
+  }
+}
+
+@keyframes drift-through {
+  entry 0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.97);
+  }
+  entry 35% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    visibility: visible;
+  }
+  exit 30% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+  exit 99% {
+    visibility: visible;
+  }
+  exit 100% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(-40px) rotateX(-12deg) scale(0.96);
+    filter: blur(6px);
+    visibility: hidden;
+  }
+}
+
+/* ==========================================================================
+   Focus glass (mobile)
+   On a single column the card being read is solid; cards above and below it
+   turn to frosted glass so the sky shows through. Each card sits on glass and
+   a ::before layer holds the solid surface, so only that layer's opacity
+   animates (no repaint of the blur). The hero starts solid and only turns to
+   glass as it leaves. The form stays solid.
+   ========================================================================== */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 900px) {
+    :is(.hero, .recent, .how, .group-grid > .project) {
+      isolation: isolate;
+      background: var(--glass-faint);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+    /* the project panels go faint too, or cards inside them never look see-through */
+    .group {
+      background: var(--glass-faint);
+    }
+    :is(.hero, .recent, .how, .group-grid > .project)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--plate) 88%, #fff) 0%,
+        var(--plate) 45%,
+        color-mix(in srgb, var(--plate) 96%, var(--ink)) 100%
+      );
+      animation: focus-solid linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .hero::before {
+      animation-name: hero-solid;
+      animation-range: exit;
+    }
+  }
+}
+
+/* cover: 0% = card top meets the bottom of the screen, 50% = card centred, 100% = gone */
+@keyframes focus-solid {
+  0% {
+    opacity: 0;
+  }
+  35%,
+  60% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hero-solid {
+  0% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Flow
+   The sky moves slower than the cards (parallax). Scroll-driven CSS, off for
+   reduced motion.
+   ========================================================================== */
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sky {
+      animation: sky-parallax linear both;
+      animation-timeline: scroll(root);
+    }
+    .sky-sun {
+      /* Keep the gentle bob (transform) and add parallax (translate) on the scroll timeline. */
+      animation:
+        bob 10s ease-in-out infinite,
+        sun-parallax linear both;
+      animation-timeline: auto, scroll(root);
+    }
+  }
+}
+
+@keyframes sky-parallax {
+  to {
+    transform: translateY(22vh);
+  }
+}
+@keyframes sun-parallax {
+  to {
+    translate: 0 30vh;
   }
 }
 

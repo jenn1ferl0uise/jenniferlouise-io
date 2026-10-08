@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { QuoteBuilder, QuoteBuilderView } from '@/components/quote-builder';
+import SiteHeader from '@/components/site-header';
 import { pageMetadata } from '@/lib/metadata';
 import { EMPTY_SELECTION } from '@/lib/quote';
 
@@ -13,7 +14,7 @@ export const metadata = pageMetadata({
 export default function QuotePage() {
   return (
     <main id="main" className="page quote">
-      <div className="open sky0-short" aria-hidden="true" />
+      <SiteHeader />
 
       <header className="cell quote-head col-4" data-section="quote:head">
         <span className="lbl">(q) quotes</span>

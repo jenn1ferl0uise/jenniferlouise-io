@@ -3,9 +3,10 @@ export const SITE_URL = 'https://www.jenniferlouise.io';
 export const site = {
   name: 'Jennifer Louise',
   fullName: 'Jennifer Louise Lynch',
-  role: 'Frontend Engineer',
+  role: 'Product Engineer',
   description:
-    'Frontend engineer with 7+ years building React and TypeScript products. Calm, careful interfaces, plus photography from above.',
+    'Product engineer turning ideas into things people actually use, from the first sketch to the final release, with AI in the loop.',
+  currently: 'Codeway',
   previously: ['Scopely', 'Thoughtworks', 'Marfeel'],
 } as const;
 
@@ -15,7 +16,7 @@ export interface ExternalLink {
 }
 
 export const links = {
-  photos: { label: 'Photos', url: 'https://photos.jenniferlouise.io' },
+  photos: { label: 'Photography', url: 'https://photos.jenniferlouise.io' },
   navizo: { label: 'Navizo', url: 'https://navizo.jenniferlouise.io' },
   github: { label: 'GitHub', url: 'https://github.com/jenn1ferl0uise' },
   linkedin: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/jennifer-louise-lynch' },
