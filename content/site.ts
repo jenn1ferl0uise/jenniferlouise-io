@@ -3,9 +3,9 @@ export const SITE_URL = 'https://www.jenniferlouise.io';
 export const site = {
   name: 'Jennifer Louise',
   fullName: 'Jennifer Louise Lynch',
-  role: 'Frontend Engineer',
+  role: 'Product Engineer',
   description:
-    'Frontend engineer turning ideas into products people actually use, from the first sketch to the final release, with AI in the loop.',
+    'Product engineer turning ideas into things people actually use, from the first sketch to the final release, with AI in the loop.',
   currently: 'Codeway',
   previously: ['Scopely', 'Thoughtworks', 'Marfeel'],
 } as const;

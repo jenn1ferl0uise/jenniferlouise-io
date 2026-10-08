@@ -1,6 +1,7 @@
 /**
  * Small hidden animals. Each one is only visible at certain times of day (see globals.css):
  * fish at day and sunset, cat at night, turtle at sunrise and day. Birds live in <Sky />.
+ * The volcano is always there, puffing smoke by day and glowing at sunset and night.
  */
 
 export function Fish() {
@@ -52,6 +53,24 @@ export function Turtle() {
         {/* near legs (in front) */}
         <rect className="leg" x="10" y="16" width="4" height="6.5" rx="1.8" />
         <rect className="leg step-b" x="25" y="16" width="4" height="6.5" rx="1.8" />
+      </svg>
+    </span>
+  );
+}
+
+export function Volcano() {
+  return (
+    <span className="animal volcano" aria-hidden="true">
+      <svg width="44" height="34" viewBox="0 0 52 40">
+        <circle className="puff" cx="26" cy="14" r="4.5" />
+        <circle className="puff" cx="28" cy="14" r="4" />
+        <circle className="puff" cx="24" cy="14" r="3.5" />
+        <path
+          className="cone"
+          d="M0 40 Q10 30 17 20 Q19 17.5 21 19 Q26 17 31 19 Q33 17.5 35 20 Q42 30 52 40 Z"
+        />
+        <ellipse className="lava" cx="26" cy="19.3" rx="4.6" ry="1.3" />
+        <path className="lava" d="M24.5 20.2 Q22 26 18.5 31 Q23.5 27 26.5 20.4 Z" />
       </svg>
     </span>
   );

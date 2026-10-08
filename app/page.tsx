@@ -3,7 +3,7 @@ import PageTracking from '@/components/page-tracking';
 import ProjectGroup from '@/components/project-group';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
-import { Cat, Turtle } from '@/components/animals';
+import { Cat, Turtle, Volcano } from '@/components/animals';
 import {
   clientProjects,
   links,
@@ -25,7 +25,7 @@ export default function Home() {
             <span className="lbl">(a) hello</span>
             <h1 id="hero-h">{site.name}</h1>
             <p className="tagline">
-              Frontend engineer turning <em>friction into flow.</em>
+              Product engineer turning <em>friction into flow.</em>
             </p>
             <p>
               Almost a decade turning ideas into products people actually use, from the first sketch
@@ -129,13 +129,14 @@ export default function Home() {
             aria-labelledby="hello-h"
           >
             <Cat />
+            <Volcano />
             <span className="lbl">(e) say hello</span>
             <h2 id="hello-h">
               Have a role or a project <em>in mind?</em>
             </h2>
             <p>
-              I&apos;m always happy to talk about frontend, design systems, or a website you&apos;d
-              like to exist. You can also find me on{' '}
+              I&apos;m always happy to talk about products, UX, the systems behind them, or a
+              website you&apos;d like to exist. You can also find me on{' '}
               <a
                 href={links.linkedin.url}
                 target="_blank"

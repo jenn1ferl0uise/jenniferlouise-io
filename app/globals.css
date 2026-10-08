@@ -931,6 +931,40 @@
   opacity: 1;
 }
 
+/* volcano: always there, sitting on the hello card; smoke by day, a glowing crater after dark */
+.volcano {
+  left: 28px;
+  top: -32px;
+  z-index: 2;
+  opacity: 1;
+}
+.volcano .cone {
+  fill: var(--plate);
+}
+.volcano .lava {
+  fill: var(--pop);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+[data-time='sunset'] .volcano .lava,
+[data-time='night'] .volcano .lava {
+  opacity: 0.9;
+  animation: glow 3.2s ease-in-out infinite alternate;
+}
+.volcano .puff {
+  fill: color-mix(in srgb, var(--on-sky) 85%, var(--plate));
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: puff 6s ease-out infinite;
+}
+.volcano .puff:nth-child(2) {
+  animation-delay: 2s;
+}
+.volcano .puff:nth-child(3) {
+  animation-delay: 4s;
+}
+
 /* turtle: sunrise and day, walking slowly across the footer */
 .turtle {
   left: 0;
@@ -1076,6 +1110,24 @@
 @keyframes nod {
   50% {
     transform: translateY(1px) rotate(-4deg);
+  }
+}
+@keyframes puff {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  20% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, -18px) scale(1.8);
+  }
+}
+@keyframes glow {
+  to {
+    opacity: 0.55;
   }
 }
 @keyframes crawl {

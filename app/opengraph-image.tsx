@@ -43,7 +43,7 @@ export default function OpengraphImage() {
       >
         <div style={{ fontSize: 30, color: '#6f5f6a' }}>{site.fullName}</div>
         <div style={{ fontSize: 64, fontWeight: 700, letterSpacing: -2 }}>
-          Frontend engineer turning friction into flow.
+          Product engineer turning friction into flow.
         </div>
       </div>
     </div>,
