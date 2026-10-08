@@ -1,7 +1,6 @@
 import ContactForm from '@/components/contact-form';
 import PageTracking from '@/components/page-tracking';
 import ProjectCard from '@/components/project-card';
-import FlowLine from '@/components/flow-line';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
 import { Cat, Fish, Snail } from '@/components/animals';
@@ -11,7 +10,6 @@ export default function Home() {
   return (
     <div className="site">
       <Sky />
-      <FlowLine />
       <PageTracking />
 
       <div className="grid">
@@ -21,29 +19,6 @@ export default function Home() {
           </a>
           <nav aria-label="Main">
             <ul>
-              <li>
-                <a href="#work">Work</a>
-              </li>
-              <li>
-                <a
-                  href={links.photos.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-track-label="Nav: Photos"
-                >
-                  Photos <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={links.navizo.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-track-label="Nav: Navizo"
-                >
-                  Navizo <span aria-hidden="true">↗</span>
-                </a>
-              </li>
               <li>
                 <a href="#hello">Say hello</a>
               </li>
