@@ -26,6 +26,8 @@
 
   /* Frosted glass cards: light glass with the normal dark ink reads over every part of the sky. */
   --glass-bg: rgb(255 255 255 / 0.6);
+  /* out-of-focus cards on mobile: see-through enough to read as "passed" */
+  --glass-faint: rgb(255 255 255 / 0.3);
   --glass-border: rgb(255 255 255 / 0.5);
 
   /* Depth: a lit top edge, a soft bottom edge and layered shadows tinted by the sky. */
@@ -91,6 +93,7 @@
   --on-sky: #f2e8dc;
   --sun-y: 14%;
   --glass-bg: rgb(44 46 88 / 0.5);
+  --glass-faint: rgb(44 46 88 / 0.28);
   --glass-border: rgb(255 255 255 / 0.16);
   --edge-light: rgb(255 255 255 / 0.12);
   --edge-dark: rgb(0 0 0 / 0.25);
@@ -1126,7 +1129,7 @@
 
 /* ==========================================================================
    Scroll dissolve
-   Every card tilts up into place as it enters from below, then
+   Every card rises straight up into place as it enters from below, then
    dissolves into the sky, tilting back, as it scrolls off the top. Each
    element follows its own position, so tall or stacked cards stay readable
    until they reach the top. Pure CSS scroll-driven animations: browsers
@@ -1148,12 +1151,7 @@
 @keyframes drift-through {
   entry 0% {
     opacity: 0;
-    transform: perspective(1000px) translate(var(--drift-x), 48px) rotate(var(--drift-rot))
-      rotateX(14deg) scale(0.97);
-  }
-  entry 18% {
-    transform: perspective(1000px) translate(calc(var(--drift-x) * 0.35), 16px)
-      rotate(calc(var(--drift-rot) * 0.3)) rotateX(5deg);
+    transform: translateY(48px) scale(0.97);
   }
   entry 35% {
     opacity: 1;
@@ -1190,9 +1188,13 @@
   @media (prefers-reduced-motion: no-preference) and (max-width: 900px) {
     :is(.hero, .recent, .how, .group-grid > .project) {
       isolation: isolate;
-      background: var(--glass-bg);
+      background: var(--glass-faint);
       -webkit-backdrop-filter: blur(18px) saturate(150%);
       backdrop-filter: blur(18px) saturate(150%);
+    }
+    /* the project panels go faint too, or cards inside them never look see-through */
+    .group {
+      background: var(--glass-faint);
     }
     :is(.hero, .recent, .how, .group-grid > .project)::before {
       content: '';
@@ -1243,28 +1245,9 @@
 
 /* ==========================================================================
    Flow
-   Cards drift in on alternating diagonals like things carried by a current,
-   and the sky moves slower than the cards (parallax). All scroll-driven CSS,
-   off for reduced motion.
+   The sky moves slower than the cards (parallax). Scroll-driven CSS, off for
+   reduced motion.
    ========================================================================== */
-
-/* Drift direction per card: alternate left / right down the page. */
-.cell {
-  --drift-x: 0px;
-  --drift-rot: 0deg;
-}
-.hero,
-.group-grid > .cell:nth-child(odd),
-.how {
-  --drift-x: -36px;
-  --drift-rot: -1.5deg;
-}
-.recent,
-.group-grid > .cell:nth-child(even),
-.hello {
-  --drift-x: 36px;
-  --drift-rot: 1.5deg;
-}
 
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
