@@ -1,11 +1,25 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, type ReactNode } from 'react';
 import { toast } from 'sonner';
-import { trackEvent } from '@/lib/analytics';
+import { trackEvent, type FormSource } from '@/lib/analytics';
 import { validateContact, type EmailFormValues } from '@/lib/contact-validation';
 
-const ContactForm = () => {
+interface ContactFormProps {
+  /** Which form this is, for analytics. */
+  source?: FormSource;
+  /** Extra fields sent with the message, rendered before the message box. */
+  children?: ReactNode;
+  messageLabel?: string;
+  submitLabel?: string;
+}
+
+const ContactForm = ({
+  source = 'hello',
+  children,
+  messageLabel = 'Message',
+  submitLabel = 'Send message',
+}: ContactFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formLoadTime = useRef<number>(0);
 
@@ -16,7 +30,7 @@ const ContactForm = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isSubmitting) return;
-    trackEvent.contactFormClick();
+    trackEvent.contactFormClick(source);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -53,7 +67,7 @@ const ContactForm = () => {
 
     const validation = validateContact(values);
     if (!validation.ok) {
-      trackEvent.contactFormError(validation.error);
+      trackEvent.contactFormError(validation.error, source);
 
       if (validation.error === 'incomplete') {
         toast('Please fill in your name, email and message.');
@@ -74,16 +88,16 @@ const ContactForm = () => {
 
       if (res.ok) {
         form.reset();
-        trackEvent.contactFormSubmit();
+        trackEvent.contactFormSubmit(source);
         toast('Message sent', {
           description: 'Thanks for reaching out ☀️',
         });
       } else {
-        trackEvent.contactFormError('failed');
+        trackEvent.contactFormError('failed', source);
         toast('Your message didn’t send. Please try again in a moment.');
       }
     } catch {
-      trackEvent.contactFormError('failed');
+      trackEvent.contactFormError('failed', source);
       toast('Your message didn’t send. Check your connection and try again.');
     } finally {
       setIsSubmitting(false);
@@ -108,13 +122,15 @@ const ContactForm = () => {
         <input id="email" name="email" type="email" autoComplete="email" required />
       </div>
 
+      {children}
+
       <div className="field field-wide">
-        <label htmlFor="message">Message</label>
+        <label htmlFor="message">{messageLabel}</label>
         <textarea id="message" name="message" rows={4} required />
       </div>
 
       <button type="submit" className="btn primary" disabled={isSubmitting}>
-        {isSubmitting ? 'Sending…' : 'Send message'}
+        {isSubmitting ? 'Sending…' : submitLabel}
       </button>
     </form>
   );

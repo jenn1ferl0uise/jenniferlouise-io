@@ -1,39 +1,32 @@
-import type { Project } from '@/content/site';
+import Link from 'next/link';
+import { WORK_STATUS, type CaseStudy } from '@/content/work';
 
-export default function ProjectCard({ project }: { project: Project }) {
-  const headingId = `project-${project.id}`;
+export default function ProjectCard({ study }: { study: CaseStudy }) {
+  const headingId = `project-${study.slug}`;
 
   return (
-    <article className="cell project" aria-labelledby={headingId}>
+    <article
+      className="cell project"
+      aria-labelledby={headingId}
+      data-section={`project:${study.slug}`}
+    >
       <h3 id={headingId}>
-        {project.title}
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-track-label={project.title}
-          aria-label={`Visit ${project.title} (opens in a new tab)`}
-        >
-          Visit ↗
-        </a>
+        <Link href={`/work/${study.slug}`}>{study.title}</Link>
+        {study.status !== 'live' && <span className="status">{WORK_STATUS[study.status]}</span>}
       </h3>
       <dl className="ff">
         <div className="friction">
           <dt>The friction</dt>
-          <dd>{project.friction}</dd>
+          <dd>{study.friction}</dd>
         </div>
         <div className="flow">
           <dt>The flow</dt>
-          <dd>{project.flow}</dd>
+          <dd>{study.flow}</dd>
         </div>
       </dl>
-      {project.tags && project.tags.length > 0 && (
-        <ul className="tags" aria-label="Built with">
-          {project.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-      )}
+      <span className="more" aria-hidden="true">
+        How I built it →
+      </span>
     </article>
   );
 }
