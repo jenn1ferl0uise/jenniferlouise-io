@@ -1,10 +1,16 @@
 import type { Project } from '@/content/site';
 
-export default function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  /** Frosted-glass variant, used to alternate with solid cards. */
+  glass?: boolean;
+}
+
+export default function ProjectCard({ project, glass = false }: ProjectCardProps) {
   const headingId = `project-${project.id}`;
 
   return (
-    <article className="cell project" aria-labelledby={headingId}>
+    <article className={glass ? 'cell project glass' : 'cell project'} aria-labelledby={headingId}>
       <h3 id={headingId}>
         {project.title}
         <a

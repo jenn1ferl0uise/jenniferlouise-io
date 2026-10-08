@@ -24,6 +24,10 @@
   --radius: 16px;
   --gap: clamp(20px, 2.6vw, 30px);
 
+  /* Frosted glass cards: light glass with the normal dark ink reads over every part of the sky. */
+  --glass-bg: rgb(255 255 255 / 0.42);
+  --glass-border: rgb(255 255 255 / 0.5);
+
   /* Depth: a lit top edge, a soft bottom edge and layered shadows tinted by the sky. */
   --edge-light: rgb(255 255 255 / 0.75);
   --edge-dark: rgb(40 20 50 / 0.08);
@@ -86,6 +90,8 @@
   --silhouette: #f4ecd8;
   --on-sky: #f2e8dc;
   --sun-y: 14%;
+  --glass-bg: rgb(255 255 255 / 0.07);
+  --glass-border: rgb(255 255 255 / 0.16);
   --edge-light: rgb(255 255 255 / 0.12);
   --edge-dark: rgb(0 0 0 / 0.25);
   --shadow-tint: 2 4 14;
@@ -270,6 +276,34 @@
 }
 .open {
   min-width: 0;
+}
+
+/* Glass variant: alternates with solid cards so the sky shows through. */
+.cell.glass {
+  --soft: color-mix(in srgb, var(--ink) 72%, transparent);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, #000 10%, transparent),
+    inset 0 0 30px -14px color-mix(in srgb, #fff 45%, transparent),
+    0 2px 4px rgb(var(--shadow-tint) / 0.1),
+    0 20px 40px -18px rgb(var(--shadow-tint) / 0.4);
+}
+/* Secondary text mixes towards the plate colour on solid cards; on glass keep it darker for contrast. */
+.cell.glass li span,
+.cell.glass li a > span,
+.cell.glass .ff .friction dd {
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+}
+.cell.glass.project:hover {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    inset 0 0 30px -14px color-mix(in srgb, #fff 45%, transparent),
+    0 4px 8px rgb(var(--shadow-tint) / 0.14),
+    0 30px 56px -22px rgb(var(--shadow-tint) / 0.5);
 }
 
 .lbl {
@@ -644,7 +678,7 @@
 .open2 {
   grid-area: open2;
   position: relative;
-  min-height: 200px;
+  min-height: 160px;
 }
 
 /* hello */
@@ -991,7 +1025,7 @@
       'open2 open2' 'hello hello' 'foot foot';
   }
   .open2 {
-    min-height: 140px;
+    min-height: 64px;
   }
   .open3 {
     display: none;
@@ -1044,7 +1078,6 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .nav,
     .cell,
     .sky-chip {
       animation: drift-through linear both;
@@ -1053,6 +1086,31 @@
          minifier rewrites "entry 0% exit 100%" into the broken "entry exit 0%". */
       animation-range: cover;
     }
+    /* The nav is short, so following its own height made it vanish much faster than
+       the cards. Fade it over a fixed half screen of scrolling instead. */
+    .nav {
+      animation: nav-away linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 50vh;
+    }
+  }
+}
+
+@keyframes nav-away {
+  0% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    visibility: visible;
+  }
+  99% {
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(-40px) rotateX(-12deg) scale(0.96);
+    filter: blur(6px);
+    visibility: hidden;
   }
 }
 
@@ -1061,7 +1119,7 @@
     opacity: 0;
     transform: perspective(1000px) translateY(40px) rotateX(14deg) scale(0.97);
   }
-  entry 75% {
+  entry 35% {
     opacity: 1;
     transform: none;
     filter: blur(0);

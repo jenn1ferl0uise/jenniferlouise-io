@@ -74,7 +74,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="cell recent" data-section="recent" aria-labelledby="recent-h">
+          <section className="cell recent glass" data-section="recent" aria-labelledby="recent-h">
             <h2 id="recent-h" className="lbl">
               recent projects
             </h2>
@@ -109,11 +109,11 @@ export default function Home() {
 
           {projects.map((project, i) => (
             <div key={project.id} className={`w${i + 1}`} data-section={`project:${project.id}`}>
-              <ProjectCard project={project} />
+              <ProjectCard project={project} glass={i % 2 === 1} />
             </div>
           ))}
 
-          <section className="cell how" data-section="how" aria-labelledby="how-h">
+          <section className="cell how glass" data-section="how" aria-labelledby="how-h">
             <span className="lbl">(c) how i work</span>
             <h2 id="how-h">Careful by default</h2>
             <ul>
