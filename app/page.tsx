@@ -1,131 +1,205 @@
-'use client';
 import ContactForm from '@/components/contact-form';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { useScrollTracking } from '@/hooks/useScrollTracking';
-import { useSectionTracking } from '@/hooks/useSectionTracking';
-import { trackEvent } from '@/lib/analytics';
-import { ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+import PageTracking from '@/components/page-tracking';
+import ProjectCard from '@/components/project-card';
+import Sky from '@/components/sky';
+import TimeOfDayToggle from '@/components/time-of-day-toggle';
+import { Cat, Fish, Snail } from '@/components/animals';
+import { links, principles, projects, site } from '@/content/site';
 
-const projects = [
-  {
-    title: 'Property Manager',
-    description:
-      'A comprehensive property management platform designed to streamline rental property operations and bookings.',
-    url: 'https://property-mananger.jenniferlouise.io/',
-  },
-  {
-    title: 'Clinic Manager',
-    description:
-      'A modern clinic management app for patient records, appointment scheduling, and patient history.',
-    url: 'https://clinic-mananger.jenniferlouise.io/en',
-  },
-  {
-    title: 'Photography Portfolio',
-    description:
-      'A showcase of my photography, in a custom built web app with admin panel to manage uploads and updates.',
-    url: 'https://photos.jenniferlouise.io',
-  },
-  {
-    title: 'Travel Organizer App',
-    description:
-      'Building a solution to my own problems in organizing trips, alone or with others. A place to keep details, visualize paths while tracking costs.',
-    url: 'https://navizo.jenniferlouise.io',
-  },
-  {
-    title: 'TurboFlip',
-    description:
-      'Optimization for resellers to generate product descriptions, titles and tags for their listings on platforms like Vinted and eBay, using AI to create compelling content that drives sales.',
-    url: 'https://turboflip.jenniferlouise.io',
-  },
-];
+const photoPlaceholders = ['from above', 'water', 'through', 'lines'];
 
 export default function Home() {
-  useScrollTracking();
-  const heroRef = useSectionTracking('hero');
-  const projectsRef = useSectionTracking('projects');
-  const aboutRef = useSectionTracking('about');
-  const contactRef = useSectionTracking('contact');
-
   return (
-    <>
-      <section className="px-6 text-center" ref={heroRef}>
-        <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">Jennifer Louise</h1>
-        <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
-          <CardContent className="pt-4!">
-            Software engineer, people person, travel enthusiast, amateur photograph taker & much
-            more...
-          </CardContent>
-        </Card>
-        <Button className="mt-6" asChild>
-          <Link href="/cv">Check out my CV!</Link>
-        </Button>
-      </section>
+    <div className="site">
+      <Sky />
+      <PageTracking />
 
-      <section id="projects" ref={projectsRef} className="m-auto mt-12 max-w-4xl px-6">
-        <h2 className="mb-8 text-center text-xl font-bold">Projects</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-          {projects.map((project) => (
-            <Card
-              key={project.title}
-              className="bg-card/20 flex h-60 flex-col overflow-hidden backdrop-blur-xl transition-shadow hover:shadow-lg"
-            >
-              <CardHeader className="pt-4 pb-2">
-                <CardTitle className="mb-2 flex min-h-8 items-center justify-center text-center text-lg sm:mb-0">
-                  {project.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex min-h-12 flex-1 items-center justify-center">
-                <CardDescription className="mb-6 flex min-h-20 w-full items-center justify-center px-2 text-center text-base sm:mb-0 sm:min-h-12 sm:px-0">
-                  {project.description}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="mt-auto pt-2 pb-4 sm:pt-0">
-                <Button asChild className="w-full">
-                  <Link
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent.externalLinkClick(project.url, project.title)}
-                  >
-                    Visit Website
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
+      <div className="grid">
+        <header className="cell nav">
+          <a href="#top" className="name">
+            {site.name}
+          </a>
+          <nav aria-label="Main">
+            <ul>
+              <li>
+                <a href="#work">Work</a>
+              </li>
+              <li>
+                <a
+                  href={links.photos.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track-label="Nav: Photos"
+                >
+                  Photos <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={links.navizo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track-label="Nav: Navizo"
+                >
+                  Navizo <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a href="#hello">Say hello</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+
+        <div className="open sky0" aria-hidden="true" />
+
+        <main id="main" className="contents">
+          <section className="cell hero" id="top" data-section="hero" aria-labelledby="hero-h">
+            <span className="lbl">(a) hello</span>
+            <h1 id="hero-h">
+              <span className="sr-only">{site.fullName}, </span>
+              Frontend engineer turning <em>friction into flow.</em>
+            </h1>
+            <p>
+              Seven years building React and TypeScript products. I like the small details that make
+              software feel calm, and I photograph the world from above when I&apos;m not at a
+              keyboard.
+            </p>
+            <p className="previously">
+              <span className="lbl">previously</span> {site.previously.join(' · ')}
+            </p>
+            <div className="actions">
+              <a className="btn primary" href="#work">
+                See the work
+              </a>
+              <a className="btn" href="#hello">
+                Say hello
+              </a>
+            </div>
+          </section>
+
+          <div className="cell pics" aria-hidden="true">
+            <span className="pol p1">
+              <i />
+            </span>
+            <span className="pol p2">
+              <i />
+            </span>
+            <span className="pol p3">
+              <i />
+            </span>
+            <span className="cap">from my camera roll</span>
+          </div>
+
+          <div className="open open1" id="work">
+            <h2 className="sky-chip">
+              <span className="lbl">(b) work</span>
+              Things I&apos;ve <em>built</em>
+            </h2>
+          </div>
+
+          {projects.map((project, i) => (
+            <div key={project.id} className={`w${i + 1}`} data-section={`project:${project.id}`}>
+              <ProjectCard project={project} />
+            </div>
           ))}
-        </div>
-      </section>
 
-      <section ref={aboutRef} className="m-auto mt-12 max-w-2xl px-6 text-center">
-        <h2 className="mb-4 text-xl font-bold">About me</h2>
-        <Card className="bg-card/20 m-auto mt-12 max-w-xl backdrop-blur-xl">
-          <CardContent className="pt-4!">
-            I&apos;m a Frontend focused software engineer with 7+ years building React and
-            TypeScript applications within technical and cross discipline teams.
-            <br />I care deeply about creating simple, intuitive interfaces that solve real
-            problems, not only for looking good. <br />
-            These days, I&apos;m expanding beyond the frontend. I build full-stack applications from
-            database schema to deploy button, which has given me a much better understanding of how
-            data flows through a product and how architectural decisions impact the entire user
-            experience.
-          </CardContent>
-        </Card>
-      </section>
+          <section className="cell how" data-section="how" aria-labelledby="how-h">
+            <span className="lbl">(c) how i work</span>
+            <h2 id="how-h">Careful by default</h2>
+            <ul>
+              {principles.map((p) => (
+                <li key={p.title}>
+                  <strong>{p.title}</strong>
+                  <span>{p.body}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-      <section ref={contactRef} id="contact" className="m-auto mt-12 max-w-2xl px-6 text-center">
-        <h2 className="mb-4 text-xl font-bold">Contact</h2>
-        <ContactForm />
-      </section>
-    </>
+          <div className="open open2" aria-hidden="true">
+            <Fish />
+          </div>
+
+          <section className="cell photo" data-section="photos" aria-labelledby="photo-h">
+            <div className="photo-head">
+              <h2 id="photo-h">
+                <span className="lbl">(d) photos</span>
+                From above, through and across
+              </h2>
+              <a
+                href={links.photos.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track-label="Photos: see all"
+              >
+                See all photos <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div className="strip" aria-hidden="true">
+              {photoPlaceholders.map((caption) => (
+                <span key={caption} data-cap={caption} />
+              ))}
+            </div>
+          </section>
+
+          <section
+            className="cell hello"
+            id="hello"
+            data-section="contact"
+            aria-labelledby="hello-h"
+          >
+            <Cat />
+            <span className="lbl">(e) say hello</span>
+            <h2 id="hello-h">
+              Have a role or a project <em>in mind?</em>
+            </h2>
+            <p>
+              I&apos;m always happy to talk about frontend, design systems, or a website you&apos;d
+              like to exist. You can also find me on{' '}
+              <a
+                href={links.linkedin.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track-label="Contact: LinkedIn"
+              >
+                LinkedIn
+              </a>
+              .
+            </p>
+            <ContactForm />
+          </section>
+
+          <div className="open open3" aria-hidden="true" />
+        </main>
+
+        <footer className="cell foot">
+          <span className="lbl">
+            © {new Date().getFullYear()} {site.fullName.toLowerCase()}
+          </span>
+          <TimeOfDayToggle />
+          <span className="lbl foot-links">
+            <a
+              href={links.github.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track-label="Footer: GitHub"
+            >
+              github
+            </a>
+            {' · '}
+            <a
+              href={links.linkedin.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track-label="Footer: LinkedIn"
+            >
+              linkedin
+            </a>
+          </span>
+          <Snail />
+        </footer>
+      </div>
+    </div>
   );
 }

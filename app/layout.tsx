@@ -1,88 +1,75 @@
-import { Inter, DM_Sans } from 'next/font/google';
-import type { Metadata } from 'next';
-import { Toaster } from '@/components/ui/sonner';
-import './globals.css';
+import {
+  Bricolage_Grotesque,
+  Instrument_Sans,
+  Instrument_Serif,
+  JetBrains_Mono,
+  Reenie_Beanie,
+} from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import FooterLinks from '@/components/footer-links';
-import NavigationHeader from '@/components/navigation-header';
+import { Toaster } from '@/components/ui/sonner';
+import { SITE_URL, site } from '@/content/site';
+import { DEFAULT_TIME_OF_DAY, timeOfDayScript } from '@/lib/time-of-day';
+import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' });
+const display = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-display' });
+const body = Instrument_Sans({ subsets: ['latin'], variable: '--font-body' });
+const serif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+});
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
+const hand = Reenie_Beanie({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-hand',
+  preload: false,
+});
+
+const title = `${site.fullName} | ${site.role}`;
 
 export const metadata: Metadata = {
-  title: 'Jennifer Louise Lynch | Frontend Web Developer',
-  description:
-    'Jennifer Louise Lynch is a front end focused full stack web developer specializing in React, Next.js, Node.js, PostgreSQL, and Vercel. Available for freelance projects and collaborations.',
-  keywords: [
-    'Full Stack Developer',
-    'Freelance Web Developer',
-    'Frontend Web Developer',
-    'Front end Web Developer',
-    'Frontend Software Engineer',
-    'React',
-    'Next.js',
-    'Node.js',
-    'PostgreSQL',
-    'Vercel',
-    'Portfolio',
-    'Jennifer Louise',
-    'Jennifer Lynch',
-    'Jennifer Louise Lynch',
-  ],
+  metadataBase: new URL(SITE_URL),
+  title,
+  description: site.description,
+  alternates: { canonical: '/' },
   openGraph: {
-    title: 'Jennifer Louise | Full Stack Web Developer & Freelancer',
-    description:
-      'Portfolio and contact for Jennifer Louise Lynch, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.',
-    url: 'https://jenniferlouise.io/',
-    siteName: 'Jennifer Louise Lynch Portfolio',
-    images: [
-      {
-        url: 'https://jenniferlouise.io/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Jennifer Louise Lynch Portfolio',
-      },
-    ],
+    title,
+    description: site.description,
+    url: '/',
+    siteName: site.fullName,
     locale: 'en_GB',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jennifer Louise Lynch | Full Stack Web Developer & Freelancer',
-    description:
-      'Portfolio and contact for Jennifer Louise Lynch, a freelance full stack web developer with expertise in React, Next.js, Node.js, PostgreSQL, and cloud infrastructure.',
-    images: ['https://jenniferlouise.io/og-image.png'],
+    title,
+    description: site.description,
   },
-  metadataBase: new URL('https://jenniferlouise.io'),
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={`antialiased ${inter.variable} ${dmSans.variable}`}>
-        <div className="bg-background text-foreground flex min-h-screen flex-col">
-          <span
-            aria-hidden="true"
-            className="text-foreground/10 pointer-events-none fixed self-center text-center text-[20rem] leading-none font-extrabold font-stretch-condensed select-none"
-          >
-            JENNIFER
-            <br />
-            LOUISE
-          </span>
-          <NavigationHeader />
-          <main className="mx-auto flex-1">{children}</main>
+export const viewport: Viewport = {
+  themeColor: '#2e2463',
+};
 
-          <footer className="text-muted flex justify-between px-6 py-6 text-xs italic">
-            <div>Jennifer Louise Lynch © {new Date().getFullYear()}</div>
-            <FooterLinks />
-          </footer>
-          <Toaster position="top-center" />
-        </div>
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" data-time={DEFAULT_TIME_OF_DAY} suppressHydrationWarning>
+      <head>
+        {/* Sets data-time from the visitor's clock before first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: timeOfDayScript }} />
+      </head>
+      <body
+        className={`${display.variable} ${body.variable} ${serif.variable} ${mono.variable} ${hand.variable}`}
+      >
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        {children}
+        <Toaster position="top-center" />
         <Analytics />
         <SpeedInsights />
       </body>
