@@ -1,6 +1,7 @@
 import ContactForm from '@/components/contact-form';
 import PageTracking from '@/components/page-tracking';
 import ProjectCard from '@/components/project-card';
+import FlowLine from '@/components/flow-line';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
 import { Cat, Fish, Snail } from '@/components/animals';
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <div className="site">
       <Sky />
+      <FlowLine />
       <PageTracking />
 
       <div className="grid">

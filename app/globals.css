@@ -1117,7 +1117,12 @@
 @keyframes drift-through {
   entry 0% {
     opacity: 0;
-    transform: perspective(1000px) translateY(40px) rotateX(14deg) scale(0.97);
+    transform: perspective(1000px) translate(var(--drift-x), 48px) rotate(var(--drift-rot))
+      rotateX(14deg) scale(0.97);
+  }
+  entry 18% {
+    transform: perspective(1000px) translate(calc(var(--drift-x) * 0.35), 16px)
+      rotate(calc(var(--drift-rot) * 0.3)) rotateX(5deg);
   }
   entry 35% {
     opacity: 1;
@@ -1135,9 +1140,104 @@
   }
   exit 100% {
     opacity: 0;
-    transform: perspective(1000px) translateY(-40px) rotateX(-12deg) scale(0.96);
+    transform: perspective(1000px) translate(calc(var(--drift-x) * -0.7), -44px)
+      rotate(calc(var(--drift-rot) * -0.6)) rotateX(-12deg) scale(0.96);
     filter: blur(6px);
     visibility: hidden;
+  }
+}
+
+/* ==========================================================================
+   Flow
+   Cards drift in on alternating diagonals like things carried by a current,
+   a soft line draws itself down the page, and the sky moves slower than the
+   cards (parallax). All scroll-driven CSS, off for reduced motion.
+   ========================================================================== */
+
+/* Drift direction per card: alternate left / right down the page. */
+.cell,
+.sky-chip {
+  --drift-x: 0px;
+  --drift-rot: 0deg;
+}
+.hero,
+.w1 > .cell,
+.w3 > .cell,
+.w5 > .cell,
+.how {
+  --drift-x: -36px;
+  --drift-rot: -1.5deg;
+}
+.recent,
+.w2 > .cell,
+.w4 > .cell,
+.hello,
+.sky-chip {
+  --drift-x: 36px;
+  --drift-rot: 1.5deg;
+}
+
+.flow-line {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.flow-line path {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.flow-core {
+  stroke: color-mix(in srgb, var(--on-sky) 70%, transparent);
+  stroke-width: 2;
+}
+.flow-glow {
+  stroke: color-mix(in srgb, var(--sun) 45%, transparent);
+  stroke-width: 10;
+  opacity: 0.35;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-line path {
+      stroke-dasharray: 1;
+      animation: flow-draw linear both;
+      animation-timeline: scroll(root);
+    }
+    .sky {
+      animation: sky-parallax linear both;
+      animation-timeline: scroll(root);
+    }
+    .sky-sun {
+      /* Keep the gentle bob (transform) and add parallax (translate) on the scroll timeline. */
+      animation:
+        bob 10s ease-in-out infinite,
+        sun-parallax linear both;
+      animation-timeline: auto, scroll(root);
+    }
+  }
+}
+
+@keyframes flow-draw {
+  from {
+    stroke-dashoffset: 0.94;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes sky-parallax {
+  to {
+    transform: translateY(22vh);
+  }
+}
+@keyframes sun-parallax {
+  to {
+    translate: 0 30vh;
   }
 }
 
