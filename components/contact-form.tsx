@@ -1,11 +1,6 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { trackEvent } from '@/lib/analytics';
 import { validateContact, type EmailFormValues } from '@/lib/contact-validation';
@@ -61,11 +56,11 @@ const ContactForm = () => {
       trackEvent.contactFormError(validation.error);
 
       if (validation.error === 'incomplete') {
-        toast('Error', { description: 'Please fill in all fields' });
+        toast('Please fill in your name, email and message.');
       } else if (validation.error === 'email') {
-        toast('Error', { description: 'Please enter a valid email address' });
+        toast('That email address doesn’t look right. Please check it.');
       } else {
-        toast('Minimum message length not met');
+        toast('Please write a little more, at least 10 characters.');
       }
       return;
     }
@@ -85,71 +80,43 @@ const ContactForm = () => {
         });
       } else {
         trackEvent.contactFormError('failed');
-        toast('Something went wrong');
+        toast('Your message didn’t send. Please try again in a moment.');
       }
     } catch {
       trackEvent.contactFormError('failed');
-      toast('Something went wrong');
+      toast('Your message didn’t send. Check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <Card className="bg-card/50 border-border/30 p-4 backdrop-blur-xl md:p-4">
-      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-        {/* Honeypot field - hidden from real users, bots will fill it */}
-        <div className="hidden" aria-hidden="true">
-          <Label htmlFor="website">Website</Label>
-          <Input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-        </div>
+    <form onSubmit={handleSubmit} className="contact-form" noValidate>
+      {/* Honeypot field - hidden from real users, bots will fill it */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
 
-        <div>
-          <Label htmlFor="name" className="sr-only tracking-wider">
-            Name
-          </Label>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            className="bg-background/50 mt-2"
-            placeholder="Name"
-            required
-          />
-        </div>
+      <div className="field">
+        <label htmlFor="name">Name</label>
+        <input id="name" name="name" type="text" autoComplete="name" required />
+      </div>
 
-        <div>
-          <Label htmlFor="email" className="sr-only tracking-wider">
-            Email
-          </Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            className="bg-background/50 mt-2"
-            placeholder="Email"
-            required
-          />
-        </div>
+      <div className="field">
+        <label htmlFor="email">Email</label>
+        <input id="email" name="email" type="email" autoComplete="email" required />
+      </div>
 
-        <div>
-          <Label htmlFor="message" className="sr-only tracking-wider">
-            Message
-          </Label>
-          <Textarea
-            id="message"
-            name="message"
-            className="bg-background/50 mt-2 min-h-30 resize-none"
-            placeholder="Write your message here…"
-            rows={5}
-            required
-          />
-        </div>
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? 'Sending…' : 'Send'}
-        </Button>
-      </form>
-    </Card>
+      <div className="field field-wide">
+        <label htmlFor="message">Message</label>
+        <textarea id="message" name="message" rows={4} required />
+      </div>
+
+      <button type="submit" className="btn primary" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending…' : 'Send message'}
+      </button>
+    </form>
   );
 };
 
