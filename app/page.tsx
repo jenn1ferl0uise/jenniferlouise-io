@@ -36,10 +36,10 @@ export default function Home() {
         <main id="main" className="contents">
           <section className="cell hero" id="top" data-section="hero" aria-labelledby="hero-h">
             <span className="lbl">(a) hello</span>
-            <h1 id="hero-h">
-              <span className="sr-only">{site.fullName}, </span>
+            <h1 id="hero-h">{site.name}</h1>
+            <p className="tagline">
               Frontend engineer turning <em>friction into flow.</em>
-            </h1>
+            </p>
             <p>
               Seven years building React and TypeScript products. I like the small details that make
               software feel calm, and I photograph the world from above when I&apos;m not at a
@@ -93,7 +93,7 @@ export default function Home() {
                 Things I&apos;ve <em>built</em>
               </>
             }
-            intro="Products I designed and built myself, from first idea to production."
+            intro="Designed and built by me, from first idea to production."
             projects={productProjects}
           />
 
@@ -106,7 +106,7 @@ export default function Home() {
                 Built <em>for others</em>
               </>
             }
-            intro="Websites and apps shaped around what a business actually needs."
+            intro="Websites and apps shaped around what a business needs."
             projects={clientProjects}
           >
             <article className="cell cta" aria-labelledby="cta-h">

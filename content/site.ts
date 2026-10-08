@@ -15,7 +15,7 @@ export interface ExternalLink {
 }
 
 export const links = {
-  photos: { label: 'Photos', url: 'https://photos.jenniferlouise.io' },
+  photos: { label: 'Photography', url: 'https://photos.jenniferlouise.io' },
   navizo: { label: 'Navizo', url: 'https://navizo.jenniferlouise.io' },
   github: { label: 'GitHub', url: 'https://github.com/jenn1ferl0uise' },
   linkedin: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/jennifer-louise-lynch' },
@@ -55,10 +55,10 @@ export const projects: Project[] = [
   {
     id: 'photos',
     kind: 'product',
-    title: 'Photos',
+    title: 'Photography',
     url: links.photos.url,
-    friction: 'Thousands of photos and nowhere good to show them.',
-    flow: 'A custom portfolio with an admin panel for uploads.',
+    friction: 'Years of my photos from above, through and across, with nowhere to show them.',
+    flow: 'My photography site, with its own admin panel for uploads and collections.',
   },
   {
     id: 'clinic-manager',
