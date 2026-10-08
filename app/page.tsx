@@ -1,9 +1,9 @@
 import ContactForm from '@/components/contact-form';
 import PageTracking from '@/components/page-tracking';
-import ProjectCard from '@/components/project-card';
+import ProjectGroup from '@/components/project-group';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
-import { Cat, Fish, Snail } from '@/components/animals';
+import { Cat, Snail } from '@/components/animals';
 import {
   clientProjects,
   links,
@@ -84,31 +84,40 @@ export default function Home() {
             </a>
           </section>
 
-          <div className="open open1" id="work">
-            <h2 className="sky-chip">
-              <span className="lbl">(b) my products</span>
-              Things I&apos;ve <em>built</em>
-            </h2>
-          </div>
+          <ProjectGroup
+            id="work"
+            className="group-products"
+            label="(b) my products"
+            title={
+              <>
+                Things I&apos;ve <em>built</em>
+              </>
+            }
+            intro="Products I designed and built myself, from first idea to production."
+            projects={productProjects}
+          />
 
-          {productProjects.map((project, i) => (
-            <div key={project.id} className={`p${i + 1}`} data-section={`project:${project.id}`}>
-              <ProjectCard project={project} glass={i % 2 === 1} />
-            </div>
-          ))}
-
-          <div className="open openc">
-            <h2 className="sky-chip">
-              <span className="lbl">(c) client work</span>
-              Built <em>for others</em>
-            </h2>
-          </div>
-
-          {clientProjects.map((project, i) => (
-            <div key={project.id} className={`c${i + 1}`} data-section={`project:${project.id}`}>
-              <ProjectCard project={project} glass={i % 2 === 1} />
-            </div>
-          ))}
+          <ProjectGroup
+            id="clients"
+            className="group-clients"
+            label="(c) client work"
+            title={
+              <>
+                Built <em>for others</em>
+              </>
+            }
+            intro="Websites and apps shaped around what a business actually needs."
+            projects={clientProjects}
+          >
+            <article className="cell cta" aria-labelledby="cta-h">
+              <span className="lbl">your project?</span>
+              <h3 id="cta-h">This space is free</h3>
+              <p>Have an idea that needs a website or an app? Tell me about it.</p>
+              <a className="btn primary" href="#hello">
+                Get in touch
+              </a>
+            </article>
+          </ProjectGroup>
 
           <section className="cell how glass" data-section="how" aria-labelledby="how-h">
             <span className="lbl">(d) how i work</span>
@@ -122,10 +131,6 @@ export default function Home() {
               ))}
             </ul>
           </section>
-
-          <div className="open open2" aria-hidden="true">
-            <Fish />
-          </div>
 
           <section
             className="cell hello"
@@ -153,8 +158,6 @@ export default function Home() {
             </p>
             <ContactForm />
           </section>
-
-          <div className="open open3" aria-hidden="true" />
         </main>
 
         <footer className="cell foot">

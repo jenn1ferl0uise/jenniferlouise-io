@@ -248,11 +248,9 @@
   grid-template-areas:
     'nav   nav   nav   nav   nav   nav'
     'hero  hero  hero  hero  recent recent'
-    'open1 open1 open1 open1 open1 open1'
-    'p1    p1    p2    p2    p3    p3'
-    'openc openc c1    c1    c2    c2'
-    'how   how   how   open2 open2 open2'
-    'hello hello hello hello open3 open3'
+    'products products products products products products'
+    'clients clients clients clients clients clients'
+    'how   how   hello hello hello hello'
     'foot  foot  foot  foot  foot  foot';
   gap: var(--gap);
   max-width: 1280px;
@@ -427,8 +425,7 @@
   letter-spacing: -0.035em;
 }
 .hero h1 em,
-.open1 h2 em,
-.openc h2 em,
+.group-head h2 em,
 .hello h2 em {
   font:
     italic 400 1.1em/1 var(--font-serif),
@@ -454,7 +451,8 @@
 .recent {
   grid-area: recent;
   display: grid;
-  align-content: start;
+  /* "All projects" sits at the bottom when the card stretches to the hero's height */
+  grid-template-rows: auto 1fr auto;
   gap: 16px;
   animation-delay: 0.12s;
 }
@@ -498,55 +496,85 @@
   text-underline-offset: 4px;
 }
 
-/* work */
-.open1 {
-  grid-area: open1;
+/* work: each group is one frosted panel holding its cards */
+.group {
+  position: relative;
+  min-width: 0;
   display: grid;
-  align-content: end;
-  justify-items: start;
+  gap: clamp(18px, 2vw, 24px);
+  padding: clamp(20px, 2.6vw, 34px);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--radius) + 8px);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 50%, transparent),
+    inset 0 0 40px -18px color-mix(in srgb, #fff 40%, transparent),
+    0 2px 4px rgb(var(--shadow-tint) / 0.08),
+    0 24px 48px -24px rgb(var(--shadow-tint) / 0.4);
 }
-.sky-chip {
+.group-products {
+  grid-area: products;
+}
+.group-clients {
+  grid-area: clients;
+}
+.group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 8px 32px;
+}
+.group-head > div {
   display: grid;
   gap: 4px;
-  padding: 14px 20px;
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--plate) 72%, transparent);
-  backdrop-filter: blur(8px);
-  box-shadow: var(--depth);
+}
+.group-head .lbl {
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+.group-head h2 {
   font:
-    700 clamp(1.4rem, 2.6vw, 1.9rem)/1.05 var(--font-display),
+    700 clamp(1.6rem, 3vw, 2.3rem)/1.05 var(--font-display),
     system-ui,
     sans-serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
-.openc {
-  grid-area: openc;
+.group-head p {
+  max-width: 44ch;
+  font-size: 15px;
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+}
+.group-grid {
   display: grid;
-  align-content: end;
-  justify-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 1.6vw, 20px);
 }
-.p1 {
-  grid-area: p1;
-}
-.p2 {
-  grid-area: p2;
-}
-.p3 {
-  grid-area: p3;
-}
-.c1 {
-  grid-area: c1;
-}
-.c2 {
-  grid-area: c2;
-}
-.p1,
-.p2,
-.p3,
-.c1,
-.c2 {
+
+/* "your project?" slot in the client group */
+.cta {
   display: grid;
-  min-width: 0;
+  align-content: start;
+  gap: 12px;
+  background: color-mix(in srgb, var(--plate) 55%, transparent);
+  border: 1.5px dashed color-mix(in srgb, var(--ink) 30%, transparent);
+  box-shadow: none;
+}
+.cta h3 {
+  font:
+    700 1.3rem/1.1 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+.cta p {
+  font-size: 14.5px;
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+}
+.cta .btn {
+  justify-self: start;
+  margin-top: 4px;
 }
 
 .project {
@@ -651,7 +679,8 @@
 .how {
   grid-area: how;
   display: grid;
-  align-content: start;
+  /* label, title, then the list fills the rest so the card matches the contact form's height */
+  grid-template-rows: auto auto 1fr;
   gap: 16px;
 }
 .how h2 {
@@ -663,6 +692,7 @@
 }
 .how ul {
   display: grid;
+  align-content: space-evenly;
   gap: 14px;
   margin: 0;
   padding: 0;
@@ -683,12 +713,6 @@
   color: color-mix(in srgb, var(--ink) 75%, var(--plate));
 }
 
-.open2 {
-  grid-area: open2;
-  position: relative;
-  min-height: 160px;
-}
-
 /* hello */
 .hello {
   grid-area: hello;
@@ -707,10 +731,6 @@
   max-width: 52ch;
   color: color-mix(in srgb, var(--ink) 80%, var(--plate));
 }
-.open3 {
-  grid-area: open3;
-}
-
 .contact-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -847,6 +867,13 @@
 }
 
 /* fish: day and sunset, jumping in an open patch of water */
+.fish-spot {
+  position: absolute;
+  top: 57%;
+  left: 4%;
+  width: 220px;
+  height: 140px;
+}
 .animal-fish {
   position: absolute;
   inset: 0;
@@ -1029,14 +1056,8 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent open1' 'p1 p2' 'p3 openc' 'c1 c2' 'how how'
-      'open2 open2' 'hello hello' 'foot foot';
-  }
-  .open2 {
-    min-height: 64px;
-  }
-  .open3 {
-    display: none;
+      'nav nav' 'hero hero' 'recent recent' 'products products' 'clients clients'
+      'how how' 'hello hello' 'foot foot';
   }
 }
 
@@ -1045,8 +1066,8 @@
     --gap: 22px;
     padding: 18px;
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent recent' 'open1 open1' 'p1 p1' 'p2 p2' 'p3 p3'
-      'openc openc' 'c1 c1' 'c2 c2' 'how how' 'open2 open2' 'hello hello' 'foot foot';
+      'nav nav' 'hero hero' 'recent recent' 'products products' 'clients clients'
+      'how how' 'hello hello' 'foot foot';
   }
   .nav {
     padding: 16px 22px;
@@ -1058,10 +1079,6 @@
   .hero h1 {
     font-size: 2.1rem;
     line-height: 1.05;
-  }
-  .open1,
-  .openc {
-    padding-top: 12px;
   }
   .contact-form {
     grid-template-columns: minmax(0, 1fr);
@@ -1083,8 +1100,7 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .cell,
-    .sky-chip {
+    .cell {
       animation: drift-through linear both;
       animation-timeline: view();
       /* "cover" = entry 0% → exit 100%. Written as one keyword because the CSS
@@ -1159,24 +1175,19 @@
    ========================================================================== */
 
 /* Drift direction per card: alternate left / right down the page. */
-.cell,
-.sky-chip {
+.cell {
   --drift-x: 0px;
   --drift-rot: 0deg;
 }
 .hero,
-.p1 > .cell,
-.p3 > .cell,
-.c1 > .cell,
+.group-grid > .cell:nth-child(odd),
 .how {
   --drift-x: -36px;
   --drift-rot: -1.5deg;
 }
 .recent,
-.p2 > .cell,
-.c2 > .cell,
-.hello,
-.sky-chip {
+.group-grid > .cell:nth-child(even),
+.hello {
   --drift-x: 36px;
   --drift-rot: 1.5deg;
 }

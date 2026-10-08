@@ -10,7 +10,11 @@ export default function ProjectCard({ project, glass = false }: ProjectCardProps
   const headingId = `project-${project.id}`;
 
   return (
-    <article className={glass ? 'cell project glass' : 'cell project'} aria-labelledby={headingId}>
+    <article
+      className={glass ? 'cell project glass' : 'cell project'}
+      aria-labelledby={headingId}
+      data-section={`project:${project.id}`}
+    >
       <h3 id={headingId}>
         {project.title}
         <a

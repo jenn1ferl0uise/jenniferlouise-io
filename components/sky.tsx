@@ -1,3 +1,5 @@
+import { Fish } from '@/components/animals';
+
 /** Decorative time-of-day sky behind the whole page. Colours come from the [data-time] tokens in globals.css. */
 export default function Sky() {
   return (
@@ -6,6 +8,9 @@ export default function Sky() {
       <div className="sky-stars" />
       <div className="sky-sun" />
       <div className="sky-shimmer" />
+      <span className="fish-spot">
+        <Fish />
+      </span>
       <span className="animal birds">
         <svg width="54" height="22" viewBox="0 0 54 22">
           <g>
