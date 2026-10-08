@@ -552,6 +552,47 @@
   gap: clamp(14px, 1.6vw, 20px);
 }
 
+/* Moving previews (scripts/capture-previews.mjs). Two looks: */
+.project-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+/* 1. "top": the clip is a framed screen at the top of the card. */
+.preview-top .project-media {
+  aspect-ratio: 16 / 10;
+  margin: calc(clamp(20px, 2.4vw, 32px) * -0.4) calc(clamp(20px, 2.4vw, 32px) * -0.4) 2px;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 4px);
+  background: color-mix(in srgb, var(--ink) 10%, var(--plate));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent),
+    0 8px 18px -10px rgb(var(--shadow-tint) / 0.35);
+}
+/* 2. "behind": the clip fills the card under a soft wash so the text stays readable. */
+.preview-behind {
+  isolation: isolate;
+  overflow: hidden;
+}
+.preview-behind .project-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.preview-behind .project-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--plate) 94%, transparent) 0%,
+    color-mix(in srgb, var(--plate) 82%, transparent) 55%,
+    color-mix(in srgb, var(--plate) 92%, transparent) 100%
+  );
+}
+
 /* "your project?" slot in the client group */
 .cta {
   display: grid;

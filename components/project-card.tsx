@@ -1,3 +1,5 @@
+import ProjectPreview from '@/components/project-preview';
+import { getPreview, previewStyle } from '@/content/previews';
 import type { Project } from '@/content/site';
 
 interface ProjectCardProps {
@@ -8,13 +10,22 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, glass = false }: ProjectCardProps) {
   const headingId = `project-${project.id}`;
+  const preview = getPreview(project.id);
+  const className = [
+    'cell project',
+    glass && 'glass',
+    preview && `has-preview preview-${previewStyle}`,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <article
-      className={glass ? 'cell project glass' : 'cell project'}
+      className={className}
       aria-labelledby={headingId}
       data-section={`project:${project.id}`}
     >
+      {preview && <ProjectPreview media={preview} />}
       <h3 id={headingId}>
         {project.title}
         <a
