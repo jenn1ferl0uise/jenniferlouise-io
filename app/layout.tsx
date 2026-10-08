@@ -10,6 +10,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
 import { SITE_URL, site } from '@/content/site';
+import { DEFAULT_TITLE } from '@/lib/metadata';
 import { DEFAULT_TIME_OF_DAY, timeOfDayScript } from '@/lib/time-of-day';
 import './globals.css';
 
@@ -29,26 +30,10 @@ const hand = Reenie_Beanie({
   preload: false,
 });
 
-const title = `${site.fullName} | ${site.role}`;
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title,
+  title: { default: DEFAULT_TITLE, template: `%s | ${site.name}` },
   description: site.description,
-  alternates: { canonical: '/' },
-  openGraph: {
-    title,
-    description: site.description,
-    url: '/',
-    siteName: site.fullName,
-    locale: 'en_GB',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description: site.description,
-  },
 };
 
 export const viewport: Viewport = {
