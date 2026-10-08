@@ -3,7 +3,7 @@ import PageTracking from '@/components/page-tracking';
 import ProjectGroup from '@/components/project-group';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
-import { Cat, Snail } from '@/components/animals';
+import { Cat, Turtle } from '@/components/animals';
 import {
   clientProjects,
   links,
@@ -184,7 +184,7 @@ export default function Home() {
               linkedin
             </a>
           </span>
-          <Snail />
+          <Turtle />
         </footer>
       </div>
     </div>

@@ -927,27 +927,49 @@
   opacity: 1;
 }
 
-/* snail: sunrise and day, crossing the footer very slowly */
-.snail {
+/* turtle: sunrise and day, walking slowly across the footer */
+.turtle {
   left: 0;
-  bottom: 4px;
-  animation: crawl 90s linear infinite;
+  bottom: 2px;
+  animation: crawl 75s linear infinite;
 }
-.snail .body {
-  fill: var(--soft);
+.turtle .shell {
+  fill: #6f8f55;
 }
-.snail .horns {
+.turtle .rim {
+  fill: #56733f;
+}
+.turtle .scutes {
   fill: none;
-  stroke: var(--soft);
-  stroke-width: 1.2;
+  stroke: rgb(255 255 255 / 0.4);
+  stroke-width: 1;
+  stroke-linejoin: round;
 }
-.snail .shell {
-  fill: none;
-  stroke: var(--pop);
-  stroke-width: 1.5;
+.turtle .skin,
+.turtle .leg {
+  fill: #a3b685;
 }
-[data-time='sunrise'] .snail,
-[data-time='day'] .snail {
+.turtle .leg.far {
+  fill: #8a9e6c;
+}
+.turtle .eye {
+  fill: #2a2030;
+}
+.turtle .leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: step 0.9s ease-in-out infinite alternate;
+}
+.turtle .leg.step-b {
+  animation-delay: -0.45s;
+}
+.turtle .head {
+  transform-box: fill-box;
+  transform-origin: 0% 60%;
+  animation: nod 1.8s ease-in-out infinite;
+}
+[data-time='sunrise'] .turtle,
+[data-time='day'] .turtle {
   opacity: 1;
 }
 
@@ -1037,6 +1059,19 @@
   }
   96% {
     transform: scaleY(0.1);
+  }
+}
+@keyframes step {
+  from {
+    transform: rotate(-22deg);
+  }
+  to {
+    transform: rotate(22deg);
+  }
+}
+@keyframes nod {
+  50% {
+    transform: translateY(1px) rotate(-4deg);
   }
 }
 @keyframes crawl {
