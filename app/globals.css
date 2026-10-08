@@ -224,7 +224,7 @@
   grid-template-columns: repeat(6, minmax(0, 1fr));
   grid-template-areas:
     'nav   nav   nav   nav   nav   nav'
-    'hero  hero  hero  hero  pics  pics'
+    'hero  hero  hero  hero  recent recent'
     'open1 open1 w1    w1    w2    w2'
     'w3    w3    w4    w4    w5    w5'
     'how   how   how   open2 open2 open2'
@@ -387,72 +387,52 @@
   margin-right: 6px;
 }
 
-/* photo stack */
-.pics {
-  grid-area: pics;
-  overflow: hidden;
-  min-height: 300px;
+/* recent projects (beside the hero) */
+.recent {
+  grid-area: recent;
+  display: grid;
+  align-content: start;
+  gap: 16px;
   animation-delay: 0.12s;
 }
-.pol {
-  position: absolute;
-  width: 52%;
-  aspect-ratio: 4 / 5;
-  padding: 7px 7px 20px;
-  background: #fffdf8;
-  box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.45);
-  transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.3, 1);
+.recent ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.pol i {
-  display: block;
-  height: 100%;
+.recent li + li {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
 }
-.pol.p1 {
-  left: 6%;
-  top: 14%;
-  transform: rotate(-7deg);
+.recent li a {
+  display: grid;
+  gap: 4px;
+  padding-block: 14px;
+  text-decoration: none;
 }
-.pol.p1 i {
-  background: linear-gradient(180deg, var(--sky-low), var(--sky-mid) 55%, var(--water) 56%);
-}
-.pol.p2 {
-  left: 26%;
-  top: 5%;
-  z-index: 2;
-  transform: rotate(4deg);
-}
-.pol.p2 i {
-  background: radial-gradient(ellipse at 35% 60%, #2a9cb0 0 22%, #0c4f61 23% 40%, #d7b98c 41%);
-}
-.pol.p3 {
-  left: 44%;
-  top: 22%;
-  transform: rotate(-2deg);
-}
-.pol.p3 i {
-  background:
-    linear-gradient(135deg, transparent 48%, #3a2f36 48% 51%, transparent 51%),
-    linear-gradient(60deg, transparent 48%, #3a2f36 48% 51%, transparent 51%), #ead8c6;
-}
-.pics:hover .pol.p1 {
-  transform: rotate(-12deg) translate(-8px, 4px);
-}
-.pics:hover .pol.p2 {
-  transform: rotate(0) translateY(-8px);
-}
-.pics:hover .pol.p3 {
-  transform: rotate(7deg) translate(8px, 4px);
-}
-.pics .cap {
-  position: absolute;
-  left: 20px;
-  bottom: 14px;
-  z-index: 3;
+.recent li strong {
   font:
-    400 1.5rem/1 var(--font-hand),
-    cursive;
+    700 1.15rem/1.15 var(--font-display),
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+.recent li strong span {
+  font-size: 0.8em;
+  color: var(--soft);
+}
+.recent li a > span {
+  font-size: 14px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--ink) 72%, var(--plate));
+}
+.recent li a:hover strong {
   color: var(--pop);
-  transform: rotate(-3deg);
+}
+.recent-all {
+  justify-self: start;
+  font-size: 14px;
+  text-underline-offset: 4px;
 }
 
 /* work */
@@ -1047,7 +1027,7 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'nav nav' 'hero hero' 'pics open1' 'w1 w2' 'w3 w4' 'w5 how'
+      'nav nav' 'hero hero' 'recent open1' 'w1 w2' 'w3 w4' 'w5 how'
       'open2 open2' 'photo photo' 'hello hello' 'foot foot';
   }
   .open2 {
@@ -1063,7 +1043,7 @@
     --gap: 22px;
     padding: 18px;
     grid-template-areas:
-      'nav nav' 'hero hero' 'pics pics' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
+      'nav nav' 'hero hero' 'recent recent' 'open1 open1' 'w1 w1' 'w2 w2' 'w3 w3'
       'w4 w4' 'w5 w5' 'how how' 'open2 open2' 'photo photo' 'hello hello' 'foot foot';
   }
   .nav {
@@ -1080,12 +1060,6 @@
   .hero h1 {
     font-size: 2.1rem;
     line-height: 1.05;
-  }
-  .pics {
-    min-height: 330px;
-  }
-  .pol {
-    width: 46%;
   }
   .open1 {
     padding-top: 12px;

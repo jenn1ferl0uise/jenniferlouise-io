@@ -4,7 +4,7 @@ import ProjectCard from '@/components/project-card';
 import Sky from '@/components/sky';
 import TimeOfDayToggle from '@/components/time-of-day-toggle';
 import { Cat, Fish, Snail } from '@/components/animals';
-import { links, principles, projects, site } from '@/content/site';
+import { links, principles, projects, recentProjects, site } from '@/content/site';
 
 const photoPlaceholders = ['from above', 'water', 'through', 'lines'];
 
@@ -76,18 +76,31 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="cell pics" aria-hidden="true">
-            <span className="pol p1">
-              <i />
-            </span>
-            <span className="pol p2">
-              <i />
-            </span>
-            <span className="pol p3">
-              <i />
-            </span>
-            <span className="cap">from my camera roll</span>
-          </div>
+          <section className="cell recent" data-section="recent" aria-labelledby="recent-h">
+            <h2 id="recent-h" className="lbl">
+              recent projects
+            </h2>
+            <ul>
+              {recentProjects.map((project) => (
+                <li key={project.id}>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track-label={`Recent: ${project.title}`}
+                  >
+                    <strong>
+                      {project.title} <span aria-hidden="true">↗</span>
+                    </strong>
+                    <span>{project.flow}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="#work" className="recent-all">
+              All projects <span aria-hidden="true">↓</span>
+            </a>
+          </section>
 
           <div className="open open1" id="work">
             <h2 className="sky-chip">

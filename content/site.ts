@@ -74,3 +74,10 @@ export const principles = [
   { title: 'Small, steady steps.', body: 'Ship in pieces people can try and react to.' },
   { title: 'The details matter.', body: 'Accessibility, speed and the moments in between.' },
 ] as const;
+
+/** Shown in the "Recent projects" card next to the hero, most recent first. */
+export const recentProjectIds = ['navizo', 'photos', 'turboflip'] as const;
+
+export const recentProjects = recentProjectIds
+  .map((id) => projects.find((project) => project.id === id))
+  .filter((project): project is Project => project !== undefined);
