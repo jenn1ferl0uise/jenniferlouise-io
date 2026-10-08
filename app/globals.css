@@ -1178,6 +1178,70 @@
 }
 
 /* ==========================================================================
+   Focus glass (mobile)
+   On a single column the card being read is solid; cards above and below it
+   turn to frosted glass so the sky shows through. Each card sits on glass and
+   a ::before layer holds the solid surface, so only that layer's opacity
+   animates (no repaint of the blur). The hero starts solid and only turns to
+   glass as it leaves. The form stays solid.
+   ========================================================================== */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 900px) {
+    :is(.hero, .recent, .how, .group-grid > .project) {
+      isolation: isolate;
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+    :is(.hero, .recent, .how, .group-grid > .project)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--plate) 88%, #fff) 0%,
+        var(--plate) 45%,
+        color-mix(in srgb, var(--plate) 96%, var(--ink)) 100%
+      );
+      animation: focus-solid linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .hero::before {
+      animation-name: hero-solid;
+      animation-range: exit;
+    }
+  }
+}
+
+/* cover: 0% = card top meets the bottom of the screen, 50% = card centred, 100% = gone */
+@keyframes focus-solid {
+  0% {
+    opacity: 0;
+  }
+  35%,
+  60% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hero-solid {
+  0% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
    Flow
    Cards drift in on alternating diagonals like things carried by a current,
    and the sky moves slower than the cards (parallax). All scroll-driven CSS,

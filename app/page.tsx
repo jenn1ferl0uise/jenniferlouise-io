@@ -28,9 +28,9 @@ export default function Home() {
               Frontend engineer turning <em>friction into flow.</em>
             </p>
             <p>
-              More than seven years building React and TypeScript products. I like the small details
-              that make software feel calm, and I photograph the world from above when I&apos;m not
-              at a keyboard.
+              Almost a decade turning ideas into products people actually use, from the first sketch
+              to the final release. AI is part of how I work now, so I can try more ideas and ship
+              the good ones sooner.
             </p>
             <dl className="career">
               <dt className="lbl">currently</dt>
