@@ -256,7 +256,7 @@
   margin: 0 auto;
   padding: var(--gap);
   /* a strip of open sky above the hero (birds fly through it) */
-  padding-top: clamp(48px, 6vw, 72px);
+  padding-top: clamp(24px, 3vw, 36px);
 }
 
 .cell {
@@ -1095,7 +1095,7 @@
 @media (max-width: 599px) {
   .grid {
     --gap: 22px;
-    padding: 40px 18px 18px;
+    padding: 24px 18px 18px;
     grid-template-areas:
       'hero hero' 'recent recent' 'products products' 'clients clients'
       'how how' 'hello hello' 'foot foot';

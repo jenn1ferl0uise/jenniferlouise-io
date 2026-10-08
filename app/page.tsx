@@ -37,7 +37,7 @@ export default function Home() {
             </p>
             <div className="actions">
               <a className="btn primary" href="#work">
-                See the work
+                Explore my projects
               </a>
               <a className="btn" href="#hello">
                 Say hello
