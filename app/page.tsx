@@ -20,19 +20,6 @@ export default function Home() {
       <PageTracking />
 
       <div className="grid">
-        <header className="nav">
-          <a href="#top" className="name">
-            {site.name}
-          </a>
-          <nav aria-label="Main">
-            <ul>
-              <li>
-                <a href="#hello">Say hello</a>
-              </li>
-            </ul>
-          </nav>
-        </header>
-
         <main id="main" className="contents">
           <section className="cell hero" id="top" data-section="hero" aria-labelledby="hero-h">
             <span className="lbl">(a) hello</span>

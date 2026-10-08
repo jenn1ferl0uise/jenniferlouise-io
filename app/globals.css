@@ -246,7 +246,6 @@
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   grid-template-areas:
-    'nav   nav   nav   nav   nav   nav'
     'hero  hero  hero  hero  recent recent'
     'products products products products products products'
     'clients clients clients clients clients clients'
@@ -256,6 +255,8 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--gap);
+  /* a strip of open sky above the hero (birds fly through it) */
+  padding-top: clamp(48px, 6vw, 72px);
 }
 
 .cell {
@@ -352,61 +353,6 @@
   margin-top: 4px;
 }
 
-/* nav: frosted glass over the sky, no solid card */
-.nav {
-  grid-area: nav;
-  position: relative;
-  z-index: 6;
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px 24px;
-  margin-bottom: clamp(4px, 1.5vw, 16px);
-  padding: 16px clamp(20px, 2.4vw, 32px);
-  border: 1px solid color-mix(in srgb, var(--on-sky) 22%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--on-sky) 10%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 45%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #000 12%, transparent),
-    inset 0 0 24px -12px color-mix(in srgb, #fff 40%, transparent),
-    0 2px 4px rgb(var(--shadow-tint) / 0.12),
-    0 18px 36px -16px rgb(var(--shadow-tint) / 0.45);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
-  color: var(--on-sky);
-}
-.nav .name {
-  font:
-    700 17px/1 var(--font-display),
-    system-ui,
-    sans-serif;
-  letter-spacing: -0.015em;
-  text-decoration: none;
-}
-.nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-}
-.nav ul a {
-  text-decoration: none;
-}
-.nav ul a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.nav ul span {
-  font-size: 11px;
-  opacity: 0.75;
-}
-
 /* hero */
 .hero {
   grid-area: hero;
@@ -418,7 +364,7 @@
 }
 .hero h1 {
   font:
-    800 clamp(3rem, 8vw, 6.2rem)/0.92 var(--font-display),
+    800 clamp(2.5rem, 5.6vw, 4.4rem)/0.95 var(--font-display),
     system-ui,
     sans-serif;
   letter-spacing: -0.05em;
@@ -891,9 +837,9 @@
   overflow: visible;
 }
 
-/* birds: sunrise and sunset, drifting behind the glass nav */
+/* birds: sunrise and sunset, flying through the sky above the hero */
 .birds {
-  top: calc(var(--gap) + 22px);
+  top: clamp(12px, 2vw, 22px);
   left: 0;
   animation: fly 26s linear infinite;
 }
@@ -1141,7 +1087,7 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent recent' 'products products' 'clients clients'
+      'hero hero' 'recent recent' 'products products' 'clients clients'
       'how how' 'hello hello' 'foot foot';
   }
 }
@@ -1149,20 +1095,17 @@
 @media (max-width: 599px) {
   .grid {
     --gap: 22px;
-    padding: 18px;
+    padding: 40px 18px 18px;
     grid-template-areas:
-      'nav nav' 'hero hero' 'recent recent' 'products products' 'clients clients'
+      'hero hero' 'recent recent' 'products products' 'clients clients'
       'how how' 'hello hello' 'foot foot';
-  }
-  .nav {
-    padding: 16px 22px;
   }
   .hero {
     gap: 22px;
     padding: 36px 24px 40px;
   }
   .hero h1 {
-    font-size: 3.2rem;
+    font-size: 2.6rem;
   }
   .hero .tagline {
     font-size: 1.35rem;
@@ -1178,7 +1121,7 @@
 
 /* ==========================================================================
    Scroll dissolve
-   Every card (and the nav) tilts up into place as it enters from below, then
+   Every card tilts up into place as it enters from below, then
    dissolves into the sky, tilting back, as it scrolls off the top. Each
    element follows its own position, so tall or stacked cards stay readable
    until they reach the top. Pure CSS scroll-driven animations: browsers
@@ -1194,31 +1137,6 @@
          minifier rewrites "entry 0% exit 100%" into the broken "entry exit 0%". */
       animation-range: cover;
     }
-    /* The nav is short, so following its own height made it vanish much faster than
-       the cards. Fade it over a fixed half screen of scrolling instead. */
-    .nav {
-      animation: nav-away linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 50vh;
-    }
-  }
-}
-
-@keyframes nav-away {
-  0% {
-    opacity: 1;
-    transform: none;
-    filter: blur(0);
-    visibility: visible;
-  }
-  99% {
-    visibility: visible;
-  }
-  100% {
-    opacity: 0;
-    transform: perspective(1000px) translateY(-40px) rotateX(-12deg) scale(0.96);
-    filter: blur(6px);
-    visibility: hidden;
   }
 }
 
