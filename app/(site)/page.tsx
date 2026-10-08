@@ -96,7 +96,7 @@ export default function Home() {
             timeline.
           </p>
           <Link className="btn primary" href="/quote">
-            Build a quote <span aria-hidden="true">→</span>
+            Get a quote <span aria-hidden="true">→</span>
           </Link>
         </article>
       </ProjectGroup>

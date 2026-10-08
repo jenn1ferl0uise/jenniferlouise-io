@@ -1095,12 +1095,34 @@
   outline: 2px solid var(--pop);
   outline-offset: 3px;
 }
-.chip .size {
-  font:
-    500 10.5px/1 var(--font-mono),
-    ui-monospace,
-    monospace;
-  opacity: 0.6;
+/* effort, colour coded: green a few days, amber about a week, coral one to two weeks */
+.size {
+  --size-colour: #4fa36a;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--size-colour);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--size-colour) 25%, transparent);
+}
+.size[data-size='M'] {
+  --size-colour: #e0a030;
+}
+.size[data-size='L'] {
+  --size-colour: #e0566b;
+}
+.size-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.size-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 .summary-col {
   min-width: 0;

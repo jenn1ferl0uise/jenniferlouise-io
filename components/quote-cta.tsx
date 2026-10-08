@@ -24,8 +24,7 @@ export default function QuoteCta({ preset, className = '' }: QuoteCtaProps) {
           : 'Switch on the features you need and get a rough timeline before we even talk.'}
       </p>
       <Link className="btn primary" href={preset ? quoteHref(preset.slug) : '/quote'}>
-        {preset ? `Start from ${preset.title}` : 'Build your quote'}{' '}
-        <span aria-hidden="true">→</span>
+        {preset ? `Start from ${preset.title}` : 'Get a quote'} <span aria-hidden="true">→</span>
       </Link>
     </section>
   );

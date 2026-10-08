@@ -8,6 +8,7 @@ import { trackEvent } from '@/lib/analytics';
 import {
   BUDGETS,
   EMPTY_SELECTION,
+  SIZE_LABELS,
   estimateWeeks,
   featureSize,
   formatRange,
@@ -15,8 +16,11 @@ import {
   presets,
   selectionFromSearch,
   selectionToSearch,
+  type FeatureSize,
   type QuoteSelection,
 } from '@/lib/quote';
+
+const SIZES = Object.keys(SIZE_LABELS) as FeatureSize[];
 
 const featuresByGroup = FEATURE_GROUPS.map((group) => ({
   ...group,
@@ -84,7 +88,7 @@ export function QuoteBuilderView({ selection, onChange }: QuoteBuilderViewProps)
             <button
               type="button"
               className="chip"
-              aria-pressed={!selection.preset && selection.features.length === 0}
+              aria-pressed={!selection.preset}
               onClick={() => onChange?.(EMPTY_SELECTION)}
             >
               Scratch
@@ -124,12 +128,10 @@ export function QuoteBuilderView({ selection, onChange }: QuoteBuilderViewProps)
                   title={features[id].description}
                   onClick={() => toggleFeature(id)}
                 >
+                  <span className="size" data-size={featureSize(id)} aria-hidden="true" />
                   {features[id].label}
-                  <span className="size" aria-hidden="true">
-                    {featureSize(id)}
-                  </span>
                   <span id={`feature-${id}`} hidden>
-                    {features[id].description} Effort: {featureSize(id)}.
+                    {features[id].description} Effort: {SIZE_LABELS[featureSize(id)]}.
                   </span>
                 </button>
               ))}
@@ -137,9 +139,14 @@ export function QuoteBuilderView({ selection, onChange }: QuoteBuilderViewProps)
           </div>
         ))}
 
-        <p className="fine">
-          Effort: <b>S</b> a few days · <b>M</b> about a week · <b>L</b> one to two weeks.
-        </p>
+        <ul className="fine size-legend" aria-label="Effort">
+          {SIZES.map((size) => (
+            <li key={size}>
+              <span className="size" data-size={size} aria-hidden="true" />
+              {SIZE_LABELS[size]}
+            </li>
+          ))}
+        </ul>
       </section>
 
       <div className="summary-col col-2">

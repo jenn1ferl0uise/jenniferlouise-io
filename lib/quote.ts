@@ -111,6 +111,13 @@ export function formatRange([min, max]: readonly [number, number], unit: 'week' 
 
 export type FeatureSize = 'S' | 'M' | 'L';
 
+/** How each size reads in the legend and to screen readers. */
+export const SIZE_LABELS: Record<FeatureSize, string> = {
+  S: 'a few days',
+  M: 'about a week',
+  L: 'one to two weeks',
+};
+
 export function featureSize(id: FeatureId): FeatureSize {
   const max = features[id].days[1];
   return max <= 3 ? 'S' : max <= 6 ? 'M' : 'L';
