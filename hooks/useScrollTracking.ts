@@ -3,13 +3,11 @@
 import { useEffect, useRef } from 'react';
 import { trackEvent } from '@/lib/analytics';
 
-const now = Date.now();
-
 export const useScrollTracking = () => {
   const milestones = useRef(new Set<number>());
-  const startTime = useRef<number>(now);
 
   useEffect(() => {
+    const currentStartTime = Date.now();
     let timeOnPageTracked = false;
 
     const handleScroll = () => {
@@ -25,7 +23,6 @@ export const useScrollTracking = () => {
         }
       });
     };
-    const currentStartTime = startTime.current;
 
     // Track time on page after 30 seconds
     const timeOnPageTimer = setTimeout(() => {
