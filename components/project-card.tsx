@@ -1,16 +1,17 @@
+import Link from 'next/link';
 import ProjectPreview from '@/components/project-preview';
 import { getPreview, previewStyle } from '@/content/previews';
-import type { Project } from '@/content/site';
+import { WORK_STATUS, type CaseStudy } from '@/content/work';
 
 interface ProjectCardProps {
-  project: Project;
+  study: CaseStudy;
   /** Frosted-glass variant, used to alternate with solid cards. */
   glass?: boolean;
 }
 
-export default function ProjectCard({ project, glass = false }: ProjectCardProps) {
-  const headingId = `project-${project.id}`;
-  const preview = getPreview(project.id);
+export default function ProjectCard({ study, glass = false }: ProjectCardProps) {
+  const headingId = `project-${study.slug}`;
+  const preview = getPreview(study.slug);
   const className = [
     'cell project',
     glass && 'glass',
@@ -23,38 +24,26 @@ export default function ProjectCard({ project, glass = false }: ProjectCardProps
     <article
       className={className}
       aria-labelledby={headingId}
-      data-section={`project:${project.id}`}
+      data-section={`project:${study.slug}`}
     >
       {preview && <ProjectPreview media={preview} />}
       <h3 id={headingId}>
-        {project.title}
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-track-label={project.title}
-          aria-label={`Visit ${project.title} (opens in a new tab)`}
-        >
-          Visit ↗
-        </a>
+        <Link href={`/work/${study.slug}`}>{study.title}</Link>
+        {study.status !== 'live' && <span className="status">{WORK_STATUS[study.status]}</span>}
       </h3>
       <dl className="ff">
         <div className="friction">
           <dt>The friction</dt>
-          <dd>{project.friction}</dd>
+          <dd>{study.friction}</dd>
         </div>
         <div className="flow">
           <dt>The flow</dt>
-          <dd>{project.flow}</dd>
+          <dd>{study.flow}</dd>
         </div>
       </dl>
-      {project.tags && project.tags.length > 0 && (
-        <ul className="tags" aria-label="Built with">
-          {project.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-      )}
+      <span className="more" aria-hidden="true">
+        How I built it →
+      </span>
     </article>
   );
 }

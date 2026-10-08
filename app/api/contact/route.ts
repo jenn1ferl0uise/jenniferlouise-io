@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { MAX_LENGTH, validateContact } from '@/lib/contact-validation';
+import { formatQuoteSummary, hasQuoteDetails, quoteFromFormData } from '@/lib/quote';
 
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_MAX = 5;
@@ -142,6 +143,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Message contains suspicious content' }, { status: 400 });
   }
 
+  // Builder fields from /quote; anything not in the catalogue is dropped.
+  const quote = quoteFromFormData(formData);
+  const isQuote = hasQuoteDetails(quote);
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('RESEND_API_KEY is not set');
@@ -153,9 +158,11 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: 'Contact <onboarding@resend.dev>',
       to: ['jl.lynch9@gmail.com'],
-      subject: `New message from ${sanitizedName}`,
+      subject: isQuote
+        ? `New quote request from ${sanitizedName}`
+        : `New message from ${sanitizedName}`,
       replyTo: sanitizedEmail,
-      text: sanitizedMessage,
+      text: isQuote ? `${sanitizedMessage}\n\n${formatQuoteSummary(quote)}` : sanitizedMessage,
     });
 
     return NextResponse.json({ success: true }, { status: 200 });

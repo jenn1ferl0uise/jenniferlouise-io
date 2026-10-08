@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import ProjectCard from '@/components/project-card';
-import type { Project } from '@/content/site';
+import type { CaseStudy } from '@/content/work';
 
 interface ProjectGroupProps {
   id: string;
   label: string;
   title: ReactNode;
   intro: string;
-  projects: Project[];
+  projects: CaseStudy[];
   /** Extra cards rendered after the projects (e.g. a call to action). */
   children?: ReactNode;
   className?: string;
@@ -40,8 +40,8 @@ export default function ProjectGroup({
         <p>{intro}</p>
       </header>
       <div className="group-grid">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+        {projects.map((study) => (
+          <ProjectCard key={study.slug} study={study} />
         ))}
         {children}
       </div>
