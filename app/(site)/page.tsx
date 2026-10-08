@@ -3,8 +3,8 @@ import Link from 'next/link';
 import ContactForm from '@/components/contact-form';
 import ProjectGroup from '@/components/project-group';
 import { Cat, Volcano } from '@/components/animals';
-import { links, principles, site } from '@/content/site';
-import { getWorkByKind, recentWork } from '@/content/work';
+import { links, now, nowUpdated, principles, site } from '@/content/site';
+import { getWorkByKind } from '@/content/work';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = pageMetadata({ path: '/' });
@@ -42,25 +42,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="cell recent glass" data-section="recent" aria-labelledby="recent-h">
-        <h2 id="recent-h" className="lbl">
-          recent projects
+      <section className="cell now glass" data-section="now" aria-labelledby="now-h">
+        <h2 id="now-h" className="lbl">
+          (now) what i&apos;m up to
         </h2>
         <ul>
-          {recentWork.map((study) => (
-            <li key={study.slug}>
-              <Link href={`/work/${study.slug}`} data-track-label={`Recent: ${study.title}`}>
-                <strong>
-                  {study.title} <span aria-hidden="true">→</span>
-                </strong>
-                <span>{study.flow}</span>
-              </Link>
+          {now.map((item) => (
+            <li key={item.title}>
+              <span className="lbl">{item.kind}</span>
+              <strong>{item.title}</strong>
+              <span>{item.detail}</span>
             </li>
           ))}
         </ul>
-        <a href="#work" className="recent-all">
-          All projects <span aria-hidden="true">↓</span>
-        </a>
+        <p className="now-updated">Updated {nowUpdated}</p>
       </section>
 
       <ProjectGroup

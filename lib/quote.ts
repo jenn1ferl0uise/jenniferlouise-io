@@ -15,10 +15,10 @@ export const presets = work.map(({ slug, title, features: presetFeatures }) => (
 }));
 
 export const BUDGETS = [
-  { id: 'under-2k', label: 'Under €2k' },
-  { id: '2k-5k', label: '€2k–5k' },
-  { id: '5k-10k', label: '€5k–10k' },
-  { id: '10k-plus', label: '€10k+' },
+  { id: 'under-4k', label: 'Under €4k' },
+  { id: '4k-10k', label: '€4k–10k' },
+  { id: '10k-20k', label: '€10k–20k' },
+  { id: '20k-plus', label: '€20k+' },
   { id: 'not-sure', label: 'Not sure yet' },
 ] as const;
 

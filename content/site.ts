@@ -27,3 +27,33 @@ export const principles = [
   { title: 'Small, steady steps.', body: 'Ship in pieces people can try and react to.' },
   { title: 'The details matter.', body: 'Accessibility, speed and the moments in between.' },
 ] as const;
+
+export interface NowItem {
+  /** What kind of thing it is, shown as a small label. */
+  kind: 'working' | 'learning' | 'building';
+  title: string;
+  detail: string;
+  /** Optional internal link, e.g. a case study. */
+  href?: string;
+}
+
+/** The "Now" card beside the hero: what I'm working on and learning. Update `nowUpdated` with it. */
+export const nowUpdated = 'October 2026';
+
+export const now: NowItem[] = [
+  {
+    kind: 'working',
+    title: 'Vue at Codeway',
+    detail: 'Shipping product features, with AI as part of my everyday workflow.',
+  },
+  {
+    kind: 'learning',
+    title: 'UX and product',
+    detail: 'Research, flows and deciding what is worth building in the first place.',
+  },
+  {
+    kind: 'learning',
+    title: 'Backend, data and infra',
+    detail: 'APIs, databases and the infrastructure that keeps a product running.',
+  },
+];

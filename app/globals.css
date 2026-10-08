@@ -278,7 +278,7 @@
 
 .home {
   grid-template-areas:
-    'hero  hero  hero  hero  recent recent'
+    'hero  hero  hero  hero  now   now'
     'products products products products products products'
     'clients clients clients clients clients clients'
     'how   how   hello hello hello hello';
@@ -467,16 +467,16 @@
   margin: 0;
 }
 
-/* recent projects (beside the hero) */
-.recent {
-  grid-area: recent;
+/* now: what I'm working on and learning (beside the hero) */
+.now {
+  grid-area: now;
   display: grid;
-  /* "All projects" sits at the bottom when the card stretches to the hero's height */
+  /* the "updated" note sits at the bottom when the card stretches to the hero's height */
   grid-template-rows: auto 1fr auto;
   gap: 16px;
   animation-delay: 0.12s;
 }
-.recent ul {
+.now ul {
   display: grid;
   align-content: start;
   gap: 8px;
@@ -484,42 +484,36 @@
   padding: 0;
   list-style: none;
 }
-/* each project is its own light tile, so it reads clearly over any part of the sky */
-.recent li a {
+/* each item is its own light tile, so it reads clearly over any part of the sky */
+.now li {
   display: grid;
   gap: 4px;
   padding: 12px 14px;
   border-radius: 12px;
   background: color-mix(in srgb, var(--plate) 72%, transparent);
-  text-decoration: none;
-  transition: background-color 0.2s ease;
 }
-.recent li a:hover {
-  background: color-mix(in srgb, var(--plate) 92%, transparent);
+.now li .lbl {
+  color: var(--pop);
 }
-.recent li strong {
+.now li strong {
   font:
     700 1.15rem/1.15 var(--font-display),
     system-ui,
     sans-serif;
   letter-spacing: -0.02em;
 }
-.recent li strong span {
-  font-size: 0.8em;
-  color: var(--soft);
-}
-.recent li a > span {
+.now li > span:last-child {
   font-size: 14px;
   line-height: 1.45;
   color: color-mix(in srgb, var(--ink) 72%, var(--plate));
 }
-.recent li a:hover strong {
-  color: var(--pop);
-}
-.recent-all {
-  justify-self: start;
-  font-size: 14px;
-  text-underline-offset: 4px;
+.now-updated {
+  font:
+    400 11px/1.3 var(--font-mono),
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.05em;
+  color: var(--soft);
 }
 
 /* work: each group is one frosted panel holding its cards */
@@ -1560,7 +1554,7 @@
   }
   .home {
     grid-template-areas:
-      'hero hero' 'recent recent' 'products products' 'clients clients'
+      'hero hero' 'now now' 'products products' 'clients clients'
       'how how' 'hello hello';
   }
   .col-2,
@@ -1662,7 +1656,7 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) and (max-width: 900px) {
-    :is(.hero, .recent, .how, .group-grid > .project) {
+    :is(.hero, .now, .how, .group-grid > .project) {
       isolation: isolate;
       background: var(--glass-faint);
       -webkit-backdrop-filter: blur(18px) saturate(150%);
@@ -1672,7 +1666,7 @@
     .group {
       background: var(--glass-faint);
     }
-    :is(.hero, .recent, .how, .group-grid > .project)::before {
+    :is(.hero, .now, .how, .group-grid > .project)::before {
       content: '';
       position: absolute;
       inset: 0;

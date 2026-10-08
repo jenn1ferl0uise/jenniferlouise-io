@@ -333,10 +333,3 @@ export function getCaseStudy(slug: string): CaseStudy | undefined {
 export function getWorkByKind(kind: WorkKind): CaseStudy[] {
   return work.filter((study) => study.kind === kind);
 }
-
-/** Shown in the "Recent projects" card next to the hero, most recent first. */
-const recentSlugs = ['navizo', 'photos', 'turboflip'];
-
-export const recentWork = recentSlugs
-  .map(getCaseStudy)
-  .filter((study): study is CaseStudy => study !== undefined);
