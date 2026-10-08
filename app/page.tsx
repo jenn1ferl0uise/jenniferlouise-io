@@ -25,7 +25,10 @@ export default function Home() {
             <span className="lbl">(a) hello</span>
             <h1 id="hero-h">{site.name}</h1>
             <p className="tagline">
-              Product engineer turning <em>friction into flow.</em>
+              Product engineer
+              <span className="tagline-rest">
+                turning <em>friction into flow.</em>
+              </span>
             </p>
             <p>
               Almost a decade turning ideas into products people actually use, from the first sketch

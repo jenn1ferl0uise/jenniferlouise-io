@@ -25,7 +25,7 @@
   --gap: clamp(20px, 2.6vw, 30px);
 
   /* Frosted glass cards: light glass with the normal dark ink reads over every part of the sky. */
-  --glass-bg: rgb(255 255 255 / 0.6);
+  --glass-bg: rgb(255 255 255 / 0.72);
   /* out-of-focus cards on mobile: see-through enough to read as "passed" */
   --glass-faint: rgb(255 255 255 / 0.3);
   --glass-border: rgb(255 255 255 / 0.5);
@@ -92,7 +92,7 @@
   --silhouette: #f4ecd8;
   --on-sky: #f2e8dc;
   --sun-y: 14%;
-  --glass-bg: rgb(44 46 88 / 0.5);
+  --glass-bg: rgb(44 46 88 / 0.6);
   --glass-faint: rgb(44 46 88 / 0.28);
   --glass-border: rgb(255 255 255 / 0.16);
   --edge-light: rgb(255 255 255 / 0.12);
@@ -382,6 +382,9 @@
   letter-spacing: -0.025em;
   color: var(--ink);
 }
+.hero .tagline-rest {
+  display: block;
+}
 .hero .tagline em {
   white-space: nowrap;
 }
@@ -425,18 +428,23 @@
 .recent ul {
   display: grid;
   align-content: start;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.recent li + li {
-  border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
-}
+/* each project is its own light tile, so it reads clearly over any part of the sky */
 .recent li a {
   display: grid;
   gap: 4px;
-  padding-block: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--plate) 72%, transparent);
   text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.recent li a:hover {
+  background: color-mix(in srgb, var(--plate) 92%, transparent);
 }
 .recent li strong {
   font:
@@ -939,7 +947,8 @@
   opacity: 1;
 }
 .volcano .cone {
-  fill: var(--plate);
+  /* a shade off the card colour, so it reads as a volcano and not a bump in the card */
+  fill: color-mix(in srgb, var(--plate) 55%, #7a5444);
 }
 .volcano .lava {
   fill: var(--pop);
